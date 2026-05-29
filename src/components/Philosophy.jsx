@@ -11,7 +11,7 @@ export default function Philosophy() {
 
         <div className="philosophy__col philosophy__col--main">
           <p className="philosophy__lead reveal">
-            <span className="philosophy__drop">G</span>ames are built twice — once in their
+            Games are built twice — once in their
             rules, and once in the player's understanding of them.
             <em> That second build is where I work.</em>
           </p>
