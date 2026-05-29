@@ -14,6 +14,10 @@ export default function Hero() {
     let mouse = { x: -1000, y: -1000, active: false }
     let bursts = []
     let solarBoost = 0 // sun double-click effect
+    let meteors = []
+    let nextMeteorTime = 200 + Math.random() * 400
+    let ships = []
+    let shipSummonTimer = 0
     let time = 0
 
     const resize = () => {
@@ -450,6 +454,156 @@ export default function Hero() {
             ctx.fill()
           })
         }
+      })
+
+      // ----- Meteor spawn + update -----
+      if (time > nextMeteorTime) {
+        // Meteors only enter from the top corners and fly diagonally downward,
+        // mimicking a natural meteor shower across the night sky
+        const fromLeft = Math.random() > 0.5
+        let mx, my, angle
+        if (fromLeft) {
+          mx = -20 + Math.random() * canvas.width * 0.3
+          my = -20 + Math.random() * canvas.height * 0.2
+          // Angle: ~30-60 degrees below horizontal, heading right-down
+          angle = Math.PI / 6 + Math.random() * (Math.PI / 6)
+        } else {
+          mx = canvas.width * 0.7 + Math.random() * canvas.width * 0.3 + 20
+          my = -20 + Math.random() * canvas.height * 0.2
+          // Mirror: heading left-down
+          angle = Math.PI - (Math.PI / 6) - Math.random() * (Math.PI / 6)
+        }
+        const speed = 11 + Math.random() * 4
+        const isBig = Math.random() < 0.04
+        meteors.push({
+          x: mx,
+          y: my,
+          vx: Math.cos(angle) * speed * (isBig ? 0.7 : 1),
+          vy: Math.sin(angle) * speed * (isBig ? 0.7 : 1),
+          life: 0,
+          maxLife: isBig ? 90 : 55,
+          trail: [],
+          big: isBig,
+        })
+        // Schedule next meteor 8-15 seconds out (assuming ~60fps)
+        nextMeteorTime = time + 480 + Math.random() * 420
+      }
+
+      meteors = meteors.filter((m) => {
+        m.trail.push({ x: m.x, y: m.y })
+        if (m.trail.length > (m.big ? 18 : 12)) m.trail.shift()
+        m.x += m.vx
+        m.y += m.vy
+        m.life += 1
+
+        // Draw trail (amber tail)
+        for (let i = 0; i < m.trail.length - 1; i++) {
+          const t = i / m.trail.length
+          const opacity = t * (m.big ? 0.7 : 0.55)
+          ctx.beginPath()
+          ctx.moveTo(m.trail[i].x, m.trail[i].y)
+          ctx.lineTo(m.trail[i + 1].x, m.trail[i + 1].y)
+          ctx.strokeStyle = `rgba(201, 137, 63, ${opacity})`
+          ctx.lineWidth = (m.big ? 1.8 : 1.2) * t + 0.2
+          ctx.stroke()
+        }
+
+        // Draw bright white head
+        const headGrad = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.big ? 6 : 4)
+        headGrad.addColorStop(0, 'rgba(255, 255, 240, 1)')
+        headGrad.addColorStop(0.4, 'rgba(255, 220, 170, 0.7)')
+        headGrad.addColorStop(1, 'rgba(255, 200, 130, 0)')
+        ctx.beginPath()
+        ctx.arc(m.x, m.y, m.big ? 6 : 4, 0, Math.PI * 2)
+        ctx.fillStyle = headGrad
+        ctx.fill()
+
+        // Remove when off-screen or expired
+        if (
+          m.life > m.maxLife ||
+          m.x < -50 ||
+          m.x > canvas.width + 50 ||
+          m.y < -50 ||
+          m.y > canvas.height + 50
+        ) {
+          return false
+        }
+        return true
+      })
+
+      // ----- Spacecraft easter egg (summoned by sun double-click) -----
+      if (solarBoost > 0.4 && shipSummonTimer === 0) {
+        shipSummonTimer = time + 280 + Math.random() * 120 // 4.5-6.5 sec delay
+      }
+      if (shipSummonTimer > 0 && time >= shipSummonTimer) {
+        const fromLeft = Math.random() > 0.5
+        ships.push({
+          x: fromLeft ? -40 : canvas.width + 40,
+          y: canvas.height * (0.2 + Math.random() * 0.6),
+          vx: fromLeft ? 0.6 : -0.6,
+          blink: 0,
+          trail: [],
+        })
+        shipSummonTimer = 0
+      }
+
+      ships = ships.filter((s) => {
+        s.x += s.vx
+        s.blink += 0.08
+        s.trail.push({ x: s.x, y: s.y })
+        if (s.trail.length > 60) s.trail.shift()
+
+        // Engine trail — extremely faint
+        for (let i = 0; i < s.trail.length - 1; i++) {
+          const t = i / s.trail.length
+          const opacity = t * 0.18
+          ctx.beginPath()
+          ctx.moveTo(s.trail[i].x, s.trail[i].y)
+          ctx.lineTo(s.trail[i + 1].x, s.trail[i + 1].y)
+          ctx.strokeStyle = `rgba(180, 200, 220, ${opacity})`
+          ctx.lineWidth = t * 0.8 + 0.1
+          ctx.stroke()
+        }
+
+        // Ship silhouette — small horizontal sliver with one red light
+        const w = 9
+        const h = 1.6
+        ctx.save()
+        ctx.translate(s.x, s.y)
+        if (s.vx < 0) ctx.scale(-1, 1)
+        // Body
+        ctx.beginPath()
+        ctx.moveTo(-w, 0)
+        ctx.lineTo(w * 0.6, -h)
+        ctx.lineTo(w, 0)
+        ctx.lineTo(w * 0.6, h)
+        ctx.closePath()
+        ctx.fillStyle = 'rgba(40, 45, 55, 1)'
+        ctx.fill()
+        ctx.strokeStyle = 'rgba(140, 155, 175, 0.8)'
+        ctx.lineWidth = 0.5
+        ctx.stroke()
+        // Blinking red beacon
+        const blinkOn = Math.sin(s.blink) > 0.3
+        if (blinkOn) {
+          ctx.beginPath()
+          ctx.arc(-w + 1, 0, 1.2, 0, Math.PI * 2)
+          ctx.fillStyle = 'rgba(255, 80, 80, 1)'
+          ctx.fill()
+          // Soft glow
+          const beaconGlow = ctx.createRadialGradient(-w + 1, 0, 0, -w + 1, 0, 6)
+          beaconGlow.addColorStop(0, 'rgba(255, 80, 80, 0.5)')
+          beaconGlow.addColorStop(1, 'rgba(255, 80, 80, 0)')
+          ctx.beginPath()
+          ctx.arc(-w + 1, 0, 6, 0, Math.PI * 2)
+          ctx.fillStyle = beaconGlow
+          ctx.fill()
+        }
+        ctx.restore()
+
+        // Remove when off-screen
+        if (s.x < -100 || s.x > canvas.width + 100) return false
+        return true
       })
 
       // ----- Burst ripples -----
