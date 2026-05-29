@@ -11,29 +11,28 @@ export default function Philosophy() {
 
         <div className="philosophy__col philosophy__col--main">
           <p className="philosophy__lead reveal">
-            <span className="philosophy__drop">I</span> design spaces the way
-            a director stages a scene —
-            <em> every doorway a choice, every corridor a held breath.</em>
+            <span className="philosophy__drop">G</span>ames are built twice — once in their
+            rules, and once in the player's understanding of them.
+            <em> That second build is where I work.</em>
           </p>
 
           <div className="philosophy__body reveal">
             <p>
-              My work sits at the intersection of <strong>level design</strong>,
-              <strong> systems design</strong>, and <strong>spatial storytelling</strong>.
-              I am drawn to the Kojima tradition: games as places where mechanics carry meaning,
-              where a button press can register as grief, and where the architecture itself remembers.
+              My focus is <strong>systems design</strong> — the discipline of shaping
+              mechanics, economies, and feedback loops into something a player can
+              inhabit. Less about what a player sees, more about what they come to
+              understand by playing.
             </p>
             <p>
-              I build in Unreal Engine 5, write in Blueprint, prototype in Twine, and read
-              widely outside of games — contemporary art, ludology, nutrition science, language.
-              The best level designers I know are also the most curious people in the room.
+              I work primarily in Unreal Engine 5, write in C++ and Java, and prototype
+              in Twine before any system enters engine.
             </p>
           </div>
 
           <div className="philosophy__signature reveal">
             <span className="mono">Currently</span>
             <span className="philosophy__sig-dash">—</span>
-            <span>Graduate applicant · GSND, MFA, Game Design programs</span>
+            <span>Graduate applicant · MA, Game Design programs</span>
           </div>
         </div>
       </div>
