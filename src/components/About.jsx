@@ -15,23 +15,21 @@ export default function About() {
           <span className="eyebrow">About</span>
           <h2 className="about__name display">
             Jason Zhao
-            <span className="about__name-alt">— 赵子叶</span>
+            <span className="about__name-alt">— 赵子烨</span>
           </h2>
 
           <div className="about__bio">
             <p>
-              I am a Game Science &amp; Design student in Savannah, USA — building toward
-              a career as a <strong>level designer</strong> in worlds that earn their atmosphere.
+              Game design student in Savannah, USA. I am building toward a career as a{' '}
+              <strong>systems designer</strong> — the discipline of designing not what
+              players see, but what they feel through the rules.
             </p>
             <p>
-              My background sits across disciplines: I read art theory (Chiharu Shiota,
-              Donald Judd, Linda Nochlin), study nutrition and physics for fun, and design
-              original IPs with an eye toward long-form storytelling. Hideo Kojima is my
-              favorite designer — not for the spectacle, but for the spaces between scenes.
-            </p>
-            <p>
-              When I'm not building in Unreal, I'm probably with my Ragdoll cat, <em>Oreo</em>,
-              who has very strong opinions about my chair.
+              I am drawn to the spaces beneath mechanics: how a single resource gate can
+              become a moral question, how a feedback loop can become a sentence, how an
+              economy can become a world. I work primarily in Unreal Engine 5, write in
+              C++ and Java, and prototype quickly in Twine before any system goes into
+              engine.
             </p>
           </div>
         </div>
@@ -42,13 +40,7 @@ export default function About() {
             <ul className="about__contact">
               <li>
                 <span className="mono about__contact-tag">Email</span>
-                <a href="mailto:[your-email]">[your-email@example.com]</a>
-              </li>
-              <li>
-                <span className="mono about__contact-tag">GitHub</span>
-                <a href="https://github.com/[your-username]" target="_blank" rel="noopener">
-                  github.com/[your-username]
-                </a>
+                <a href="mailto:skillswye@gmail.com">skillswye@gmail.com</a>
               </li>
               <li>
                 <span className="mono about__contact-tag">LinkedIn</span>
@@ -62,13 +54,22 @@ export default function About() {
           </div>
 
           <div className="about__card">
-            <span className="mono about__card-label">— Tools —</span>
+            <span className="mono about__card-label">— Skills —</span>
             <ul className="about__tools">
               <li>Unreal Engine 5 (Blueprint)</li>
-              <li>Gameplay Ability System</li>
+              <li>Maya</li>
               <li>Twine · Harlowe</li>
               <li>Niagara <span className="about__tool-status">(coming)</span></li>
-              <li>Blender · 3D modeling</li>
+              <li>C++</li>
+              <li>Java</li>
+            </ul>
+          </div>
+
+          <div className="about__card">
+            <span className="mono about__card-label">— Languages —</span>
+            <ul className="about__tools">
+              <li>English</li>
+              <li>Mandarin</li>
             </ul>
           </div>
         </aside>
