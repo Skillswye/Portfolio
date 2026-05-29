@@ -13,6 +13,13 @@ export default function ProjectFeature({ project, index }) {
         <span className="project__divider-line" />
       </div>
 
+      {project.poster && (
+        <div className="project__poster reveal">
+          <img src={project.poster} alt={`${project.title} poster`} />
+          <div className="project__poster-overlay" />
+        </div>
+      )}
+
       {/* Header — large project number + title */}
       <header className="project__header reveal">
         <div className="project__number-wrap">
@@ -45,6 +52,23 @@ export default function ProjectFeature({ project, index }) {
       <div className="project__logline-wrap reveal">
         <p className="project__logline">{project.logline}</p>
       </div>
+
+      {project.trailerYoutubeId && (
+        <div className="project__trailer reveal">
+          <div className="project__trailer-frame">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${project.trailerYoutubeId}?rel=0&modestbranding=1`}
+              title={`${project.title} trailer`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <p className="project__trailer-caption mono">
+            ▸ Trailer · {project.title}
+          </p>
+        </div>
+      )}
 
       {/* Media gallery — placeholders for now */}
       <div className="project__gallery reveal">

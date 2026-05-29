@@ -37,6 +37,8 @@ export default function App() {
       engine: 'Unreal Engine 5 · Blueprint',
       role: 'Designer & Developer',
       tagline: 'A vow rendered as mechanics.',
+      poster: '/runic-vanguard-poster.jpg',
+      trailerYoutubeId: 'gDNCiYdKa0c',
       logline:
         'Two players bound by an ancient pact — one wields the blade, the other draws magic from forbidden geometry. A spell-gesture system built on a 3×3 grid where every line is intention made manifest.',
       systems: [

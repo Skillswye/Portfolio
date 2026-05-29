@@ -359,3 +359,95 @@
   .project__logline-wrap { padding: 0; margin-bottom: 3rem; }
   .project__gallery { margin-bottom: 3rem; }
 }
+
+/* ============================================
+   Poster image — cinematic full-width hero
+   ============================================ */
+.project__poster {
+  position: relative;
+  margin-bottom: 5rem;
+  overflow: hidden;
+  background: var(--void);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--char);
+}
+
+.project__poster img {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  display: block;
+  filter: contrast(1.05) brightness(0.95);
+  transition: filter 0.6s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project__poster:hover img {
+  filter: contrast(1.1) brightness(1);
+  transform: scale(1.01);
+}
+
+.project__poster-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 60%, rgba(8, 8, 10, 0.5) 100%);
+}
+
+/* ============================================
+   YouTube trailer — embedded 16:9
+   ============================================ */
+.project__trailer {
+  margin: 0 auto 6rem;
+  max-width: 1100px;
+}
+
+.project__trailer-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--void);
+  border: 1px solid var(--char);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(201, 137, 63, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.project__trailer-frame:hover {
+  border-color: var(--ember-deep);
+  box-shadow:
+    0 0 0 1px rgba(201, 137, 63, 0.3),
+    0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.project__trailer-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.project__trailer-caption {
+  margin-top: 1rem;
+  color: var(--bone);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .project__poster {
+    margin-bottom: 3rem;
+  }
+  .project__poster img {
+    max-width: 100%;
+  }
+  .project__trailer {
+    margin-bottom: 3rem;
+  }
+}
