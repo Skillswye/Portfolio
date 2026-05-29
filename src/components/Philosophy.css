@@ -1,0 +1,84 @@
+.philosophy {
+  position: relative;
+  padding: 12rem 6rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.philosophy__inner {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 4rem;
+}
+
+.philosophy__col--main {
+  max-width: 720px;
+}
+
+.philosophy__lead {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  line-height: 1.3;
+  font-weight: 300;
+  color: var(--light);
+  margin-bottom: 3rem;
+  letter-spacing: -0.01em;
+}
+
+.philosophy__lead em {
+  color: var(--ember-bright);
+  font-style: italic;
+}
+
+.philosophy__drop {
+  font-family: var(--font-display);
+  font-size: 1.6em;
+  float: left;
+  line-height: 0.85;
+  padding-right: 0.15em;
+  padding-top: 0.1em;
+  color: var(--ember);
+  font-style: italic;
+}
+
+.philosophy__body {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--pale);
+  margin-bottom: 3rem;
+}
+
+.philosophy__body p {
+  margin-bottom: 1.5rem;
+}
+
+.philosophy__body strong {
+  color: var(--light);
+  font-weight: 500;
+}
+
+.philosophy__signature {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--char);
+  color: var(--bone);
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  flex-wrap: wrap;
+}
+
+.philosophy__sig-dash {
+  color: var(--ember);
+}
+
+@media (max-width: 900px) {
+  .philosophy { padding: 6rem 1.5rem; }
+  .philosophy__inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .philosophy__lead { font-size: 1.5rem; }
+}

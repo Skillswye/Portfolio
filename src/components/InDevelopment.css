@@ -1,0 +1,201 @@
+.indev {
+  position: relative;
+  padding: 8rem 6rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.indev__divider {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 6rem;
+  opacity: 0.6;
+}
+
+.indev__divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--mist), transparent);
+}
+
+.indev__divider-mark {
+  color: var(--ember);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+}
+
+.indev__header {
+  max-width: 720px;
+  margin-bottom: 5rem;
+}
+
+.indev__title {
+  font-size: clamp(3rem, 6vw, 5rem);
+  color: var(--light);
+  margin: 1.5rem 0 2rem;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.indev__title em {
+  color: var(--ember-bright);
+  font-style: italic;
+}
+
+.indev__intro {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--pale);
+  font-weight: 300;
+}
+
+.indev__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.indev__card {
+  position: relative;
+}
+
+.indev__card-frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  padding: 2.5rem;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(74, 74, 85, 0.03) 20px,
+      rgba(74, 74, 85, 0.03) 21px
+    ),
+    linear-gradient(135deg, var(--shadow) 0%, rgba(20, 20, 26, 0.6) 100%);
+  border: 1px solid var(--char);
+  display: flex;
+  align-items: flex-end;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.indev__card-frame:hover {
+  border-color: var(--ember-deep);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(201, 137, 63, 0.04) 20px,
+      rgba(201, 137, 63, 0.04) 21px
+    ),
+    linear-gradient(135deg, var(--shadow) 0%, rgba(20, 20, 26, 0.6) 100%);
+}
+
+.indev__card-frame:hover .indev__card-corner {
+  border-color: var(--ember);
+}
+
+/* Cinematic corner brackets */
+.indev__card-corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--mist);
+  transition: border-color 0.4s ease;
+}
+
+.indev__card-corner--tl {
+  top: 12px;
+  left: 12px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.indev__card-corner--tr {
+  top: 12px;
+  right: 12px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.indev__card-corner--bl {
+  bottom: 12px;
+  left: 12px;
+  border-right: none;
+  border-top: none;
+}
+
+.indev__card-corner--br {
+  bottom: 12px;
+  right: 12px;
+  border-left: none;
+  border-top: none;
+}
+
+.indev__card-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.indev__card-semester {
+  color: var(--ember);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.indev__card-tag {
+  font-size: 2rem;
+  color: var(--light);
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.indev__card-note {
+  font-size: 0.85rem;
+  color: var(--bone);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.indev__card-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--mist);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+}
+
+.indev__card-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 8px var(--ember);
+  animation: indev-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes indev-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 900px) {
+  .indev { padding: 5rem 1.5rem; }
+  .indev__grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .indev__card-frame {
+    aspect-ratio: 4 / 3;
+  }
+}

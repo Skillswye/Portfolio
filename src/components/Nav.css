@@ -1,0 +1,83 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 1.5rem 4rem;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav--scrolled {
+  background: rgba(8, 8, 10, 0.7);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  padding: 1rem 4rem;
+  border-bottom: 1px solid rgba(74, 74, 85, 0.2);
+}
+
+.nav__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.nav__mark {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: var(--light);
+}
+
+.nav__mark-glyph {
+  color: var(--ember);
+  font-size: 0.7rem;
+  transform: translateY(-1px);
+}
+
+.nav__links {
+  display: flex;
+  list-style: none;
+  gap: 3rem;
+}
+
+.nav__links a {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bone);
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.nav__links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--ember);
+  transition: width 0.4s ease;
+}
+
+.nav__links a:hover {
+  color: var(--light);
+}
+
+.nav__links a:hover::after {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .nav { padding: 1rem 1.5rem; }
+  .nav--scrolled { padding: 0.75rem 1.5rem; }
+  .nav__links { gap: 1.25rem; }
+  .nav__links a { font-size: 0.6rem; letter-spacing: 0.15em; }
+}

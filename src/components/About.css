@@ -1,0 +1,156 @@
+.about {
+  position: relative;
+  padding: 8rem 6rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.about__divider {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 6rem;
+  opacity: 0.6;
+}
+
+.about__divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--mist), transparent);
+}
+
+.about__divider-mark {
+  color: var(--ember);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.about__name {
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  color: var(--light);
+  font-style: italic;
+  font-weight: 300;
+  margin: 1.5rem 0 3rem;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.about__name-alt {
+  display: block;
+  font-size: 0.5em;
+  color: var(--ember);
+  font-style: normal;
+  margin-top: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.about__bio {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--pale);
+  max-width: 580px;
+}
+
+.about__bio p {
+  margin-bottom: 1.5rem;
+}
+
+.about__bio strong {
+  color: var(--light);
+  font-weight: 500;
+}
+
+.about__bio em {
+  color: var(--ember-bright);
+  font-style: italic;
+}
+
+.about__col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.about__card {
+  padding: 2rem;
+  border: 1px solid var(--char);
+  background: rgba(20, 20, 26, 0.4);
+  transition: border-color 0.4s ease;
+}
+
+.about__card:hover {
+  border-color: var(--ember-deep);
+}
+
+.about__card-label {
+  color: var(--ember);
+  display: block;
+  margin-bottom: 1.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+}
+
+.about__contact,
+.about__tools {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.about__contact li {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.about__contact-tag {
+  color: var(--bone);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+}
+
+.about__contact a,
+.about__contact span:not(.about__contact-tag):not(.mono) {
+  color: var(--pale);
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.about__tools li {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--pale);
+  letter-spacing: 0.05em;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.about__tools li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--ember);
+  font-size: 0.7rem;
+}
+
+.about__tool-status {
+  color: var(--mist);
+  font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .about { padding: 5rem 1.5rem; }
+  .about__grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
