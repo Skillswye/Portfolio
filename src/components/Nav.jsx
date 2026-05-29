@@ -20,7 +20,6 @@ export default function Nav() {
         <ul className="nav__links">
           <li><a href="#philosophy">Philosophy</a></li>
           <li><a href="#runic-vanguard">Work</a></li>
-          <li><a href="#in-development">In Development</a></li>
           <li><a href="#about">About</a></li>
         </ul>
       </div>

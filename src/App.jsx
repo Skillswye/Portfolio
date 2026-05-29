@@ -3,7 +3,6 @@ import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
 import Philosophy from './components/Philosophy.jsx'
 import ProjectFeature from './components/ProjectFeature.jsx'
-import InDevelopment from './components/InDevelopment.jsx'
 import About from './components/About.jsx'
 import Footer from './components/Footer.jsx'
 
@@ -54,49 +53,49 @@ export default function App() {
       ],
     },
     {
-      id: 'project-two',
+      id: 'systems-design',
       number: '02',
-      title: 'Arena Boss Fight',
-      subtitle: 'Combat Encounter Design',
-      year: '2025',
-      engine: 'Unreal Engine 5',
+      title: 'Systems Design Project',
+      subtitle: 'Coursework · In Development',
+      year: 'Spring 2027',
+      engine: 'TBD',
       role: 'Designer & Developer',
-      tagline: '[Tagline goes here]',
+      tagline: '[Tagline coming soon]',
       logline:
-        '[Replace with your project description. A dark-fantasy arena built around a single knight and a single adversary — every system in service of one fight.]',
+        '[Reserved for an upcoming systems design project. This space will document the mechanics, economies, and feedback loops authored during the Spring 2027 systems design coursework.]',
       systems: [
-        { label: 'Combat Loop', detail: '[Describe core mechanic]' },
-        { label: 'UI Systems', detail: '[Health, respawn, feedback]' },
-        { label: 'Encounter Pacing', detail: '[Phases, tells, recovery]' },
-        { label: 'Arena Design', detail: '[Spatial choices, sightlines]' },
+        { label: 'Core Mechanic', detail: '[To be documented]' },
+        { label: 'Economy / Resource Loop', detail: '[To be documented]' },
+        { label: 'Feedback Systems', detail: '[To be documented]' },
+        { label: 'Design Rationale', detail: '[To be documented]' },
       ],
       media: [
-        { type: 'placeholder', caption: 'Boss arena' },
-        { type: 'placeholder', caption: 'Combat moment' },
-        { type: 'placeholder', caption: 'UI state' },
+        { type: 'placeholder', caption: 'Coming Spring 2027' },
+        { type: 'placeholder', caption: 'Coming Spring 2027' },
+        { type: 'placeholder', caption: 'Coming Spring 2027' },
       ],
     },
     {
-      id: 'project-three',
+      id: 'niagara-vfx',
       number: '03',
-      title: 'Fracture Point',
-      subtitle: 'Analog Escape Room / Ludological Study',
-      year: '2026',
-      engine: 'Physical Space · GAME714',
-      role: 'Designer & Researcher',
-      tagline: 'The room remembers what you forgot.',
+      title: 'Niagara VFX Project',
+      subtitle: 'Coursework · In Development',
+      year: 'Spring 2027',
+      engine: 'Unreal Engine 5 · Niagara',
+      role: 'VFX & Technical Designer',
+      tagline: '[Tagline coming soon]',
       logline:
-        'A memory-themed escape room with Seeker/Mastermind asymmetric roles, Morse code puzzles, and an open ending. Designed as both a playable artifact and a ludological case study through the lenses of the Magic Circle, Emergent Play, and Ergodic Theory.',
+        '[Reserved for an upcoming Niagara visual effects project. This space will document particle systems, environmental atmosphere, and combat or spell-rendering work authored during the Spring 2027 VFX coursework.]',
       systems: [
-        { label: 'Role Asymmetry', detail: 'Seeker / Mastermind · information asymmetry as core tension' },
-        { label: 'Puzzle Layering', detail: 'Morse code · spatial cipher · memory reconstruction' },
-        { label: 'Theoretical Frame', detail: 'Magic Circle · Emergent Play · Ergodic Theory analysis' },
-        { label: 'Spatial Authoring', detail: 'Real-space staging in Montgomery Hall · diegetic props' },
+        { label: 'Particle Systems', detail: '[To be documented]' },
+        { label: 'Visual Language', detail: '[To be documented]' },
+        { label: 'Technical Pipeline', detail: '[To be documented]' },
+        { label: 'Integration', detail: '[To be documented]' },
       ],
       media: [
-        { type: 'placeholder', caption: 'Room layout' },
-        { type: 'placeholder', caption: 'Puzzle artifact' },
-        { type: 'placeholder', caption: 'Playtest moment' },
+        { type: 'placeholder', caption: 'Coming Spring 2027' },
+        { type: 'placeholder', caption: 'Coming Spring 2027' },
+        { type: 'placeholder', caption: 'Coming Spring 2027' },
       ],
     },
   ]
@@ -109,7 +108,6 @@ export default function App() {
       {featuredProjects.map((project, i) => (
         <ProjectFeature key={project.id} project={project} index={i} />
       ))}
-      <InDevelopment />
       <About />
       <Footer />
     </>
