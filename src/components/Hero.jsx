@@ -86,7 +86,7 @@ export default function Hero() {
         <div className="hero__tagline">
           <span className="hero__tagline-mark">—</span>
           <p>
-            Level &amp; systems designer building spaces<br />
+            Systems designer building spaces<br />
             that remember the people who pass through them.
           </p>
         </div>
