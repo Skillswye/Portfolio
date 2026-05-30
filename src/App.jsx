@@ -39,6 +39,7 @@ export default function App() {
       tagline: 'A vow rendered as mechanics.',
       poster: '/runic-vanguard-poster.jpg',
       trailerYoutubeId: 'gDNCiYdKa0c',
+      showSpellAnatomy: true,
       logline:
         'Two players bound by an ancient pact — one wields the blade, the other draws magic from forbidden geometry. A spell-gesture system built on a 3×3 grid where every line is intention made manifest.',
       systems: [

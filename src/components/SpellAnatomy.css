@@ -1,0 +1,198 @@
+/* ============================================
+   Spell Anatomy figure — Runic Vanguard
+   ============================================ */
+
+.spell {
+  margin: 0 auto 6rem;
+  padding: 4rem 0;
+  border-top: 1px solid var(--char);
+  border-bottom: 1px solid var(--char);
+}
+
+.spell__header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.spell__header .eyebrow {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.spell__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--light);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+/* Layout grid */
+.spell__layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 4rem;
+  margin-bottom: 4rem;
+  align-items: start;
+}
+
+/* Reference grid (left side) */
+.spell__reference {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spell__reference-label,
+.spell__reference-foot {
+  color: var(--bone);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+}
+
+.spell__big-grid {
+  width: 220px;
+  height: 220px;
+}
+
+.spell__big-dot {
+  fill: var(--shadow);
+  stroke: var(--mist);
+  stroke-width: 0.5;
+}
+
+.spell__big-num {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  fill: var(--mist);
+  letter-spacing: 0.1em;
+  text-anchor: middle;
+}
+
+/* Pattern cards (right side) */
+.spell__cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.spell__card {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.25rem;
+  border: 1px solid var(--char);
+  background: rgba(20, 20, 26, 0.3);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spell__card:hover {
+  border-color: var(--ember-deep);
+  background: rgba(20, 20, 26, 0.5);
+}
+
+.spell__card--ultimate {
+  border-color: var(--ember);
+}
+
+.spell__card--ultimate:hover {
+  border-color: var(--ember-bright);
+}
+
+.spell__mini {
+  width: 50px;
+  height: 50px;
+  display: block;
+}
+
+.spell__mini-dot {
+  fill: var(--shadow);
+  stroke: var(--mist);
+  stroke-width: 0.5;
+}
+
+.spell__mini-dot--active {
+  fill: var(--ember);
+}
+
+.spell__mini-dot--bright {
+  fill: var(--ember-bright);
+}
+
+.spell__mini-line {
+  fill: none;
+  stroke: var(--ember);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.spell__card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.spell__card-name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--light);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-style: italic;
+}
+
+.spell__card-sub {
+  color: var(--bone);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+}
+
+.spell__card-meta {
+  color: var(--mist);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+}
+
+/* Quote */
+.spell__quote {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  line-height: 1.6;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--pale);
+}
+
+.spell__quote::before,
+.spell__quote::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--ember);
+  margin: 1.5rem auto;
+  opacity: 0.5;
+}
+
+@media (max-width: 900px) {
+  .spell__layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .spell__reference {
+    position: static;
+  }
+  .spell__cards {
+    grid-template-columns: 1fr;
+  }
+}
