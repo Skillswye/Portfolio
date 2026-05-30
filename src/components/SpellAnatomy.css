@@ -196,3 +196,117 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================
+   Interactive grid additions
+   ============================================ */
+
+.spell__big-grid--interactive {
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.spell__big-dot--lit {
+  fill: var(--ember);
+  stroke: var(--ember-bright);
+  transition: fill 0.5s ease-out, stroke 0.5s ease-out, opacity 0.7s ease-out;
+}
+
+.spell__big-dot--fail {
+  fill: #8a3030 !important;
+  stroke: #c94545 !important;
+  animation: spell-fail-shake 0.6s ease-out;
+}
+
+.spell__big-dot--success {
+  fill: var(--ember-bright);
+  stroke: var(--ember-bright);
+}
+
+.spell__big-dot--success-fading {
+  fill: var(--shadow);
+  stroke: var(--mist);
+  transition: fill 0.7s ease-out, stroke 0.7s ease-out;
+}
+
+@keyframes spell-fail-shake {
+  0%, 100% { transform: translate(0, 0); }
+  20%, 60% { transform: translate(-1.5px, 0); }
+  40%, 80% { transform: translate(1.5px, 0); }
+}
+
+.spell__draw-line {
+  fill: none;
+  stroke: var(--ember-bright);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px rgba(230, 165, 90, 0.6));
+}
+
+.spell__draw-line--fail {
+  stroke: #c94545;
+  filter: drop-shadow(0 0 6px rgba(201, 69, 69, 0.7));
+  animation: spell-fail-flash 0.6s ease-out;
+}
+
+.spell__draw-line--success {
+  stroke: var(--ember-bright);
+  filter: drop-shadow(0 0 8px rgba(230, 165, 90, 0.7));
+  transition: opacity 0.7s ease-out, filter 0.7s ease-out;
+}
+
+.spell__draw-line--success-fading {
+  stroke: var(--ember-bright);
+  filter: drop-shadow(0 0 0 rgba(230, 165, 90, 0));
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes spell-fail-flash {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+
+.spell__try-hint {
+  color: var(--ember);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  animation: hint-pulse 3s ease-in-out infinite;
+}
+
+@keyframes hint-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Pulse animation for matched spell card */
+.spell__card--pulse {
+  border-color: var(--ember-bright) !important;
+  background: rgba(201, 137, 63, 0.15) !important;
+  animation: spell-card-pulse 1.4s ease-out;
+  box-shadow:
+    0 0 0 1px var(--ember),
+    0 0 30px rgba(230, 165, 90, 0.4);
+}
+
+@keyframes spell-card-pulse {
+  0% {
+    background: rgba(201, 137, 63, 0.05);
+    box-shadow: 0 0 0 0 rgba(230, 165, 90, 0);
+  }
+  20% {
+    background: rgba(201, 137, 63, 0.3);
+    box-shadow:
+      0 0 0 2px var(--ember-bright),
+      0 0 40px rgba(230, 165, 90, 0.6);
+  }
+  100% {
+    background: rgba(201, 137, 63, 0.05);
+    box-shadow: 0 0 0 0 rgba(230, 165, 90, 0);
+  }
+}
