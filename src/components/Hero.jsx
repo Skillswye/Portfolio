@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import './Hero.css'
 
 export default function Hero() {
@@ -90,7 +91,7 @@ export default function Hero() {
             hue: 30,
             sat: 5,
             lit: 70,
-            period: 0.08,
+            period: 0.5,
             angle: Math.random() * Math.PI * 2,
           },
         ],
@@ -681,12 +682,12 @@ export default function Hero() {
         </div>
 
         <div className="hero__cta">
-          <a href="#runic-vanguard" className="hero__cta-link">
+          <Link to="/work" className="hero__cta-link">
             <span>Enter the work</span>
             <svg width="32" height="8" viewBox="0 0 32 8" fill="none">
               <path d="M0 4 L28 4 M24 1 L28 4 L24 7" stroke="currentColor" strokeWidth="1" />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
 

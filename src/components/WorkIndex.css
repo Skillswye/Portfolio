@@ -1,0 +1,217 @@
+/* ============================================
+   Work Index — project card grid
+   ============================================ */
+
+.work {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 12rem 4rem 8rem;
+  min-height: 100vh;
+}
+
+.work__header {
+  max-width: 720px;
+  margin-bottom: 6rem;
+}
+
+.work__header .eyebrow {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.work__title {
+  font-size: clamp(3rem, 7vw, 6rem);
+  color: var(--light);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  line-height: 1;
+}
+
+.work__intro {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--pale);
+  font-weight: 300;
+}
+
+/* Grid */
+.work__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+}
+
+/* First card spans full width (featured) */
+.work__card:first-child {
+  grid-column: 1 / -1;
+}
+
+.work__card:first-child .work__card-visual {
+  aspect-ratio: 21 / 9;
+}
+
+.work__card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border: 1px solid var(--char);
+  background: rgba(20, 20, 26, 0.3);
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work__card:hover {
+  border-color: var(--ember-deep);
+  transform: translateY(-4px);
+}
+
+/* Visual */
+.work__card-visual {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--void);
+}
+
+.work__card-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.05) brightness(0.85);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work__card:hover .work__card-visual img {
+  filter: contrast(1.1) brightness(1);
+  transform: scale(1.03);
+}
+
+.work__card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8, 8, 10, 0.7) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Placeholder for projects without poster */
+.work__card-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--shadow) 0%, var(--char) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.work__card-placeholder-grid {
+  width: 60%;
+  height: 60%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  opacity: 0.3;
+}
+
+.work__card-placeholder-grid span {
+  border: 0.5px solid var(--mist);
+}
+
+/* In Development badge */
+.work__card-badge {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 2;
+  padding: 0.4rem 0.9rem;
+  background: rgba(8, 8, 10, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--ember-deep);
+}
+
+.work__card-badge .mono {
+  color: var(--ember-bright);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+}
+
+/* Text */
+.work__card-text {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.work__card-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.work__card-number,
+.work__card-year {
+  color: var(--ember);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+}
+
+.work__card-year {
+  color: var(--bone);
+}
+
+.work__card-title {
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  color: var(--light);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.75rem;
+}
+
+.work__card-subtitle {
+  color: var(--bone);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 1.5rem;
+}
+
+.work__card-tagline {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--ember-bright);
+  margin-bottom: 2rem;
+  flex: 1;
+}
+
+.work__card-enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--pale);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  transition: gap 0.4s ease, color 0.3s ease;
+}
+
+.work__card:hover .work__card-enter {
+  color: var(--ember-bright);
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .work { padding: 8rem 1.5rem 4rem; }
+  .work__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .work__card:first-child .work__card-visual {
+    aspect-ratio: 16 / 10;
+  }
+}

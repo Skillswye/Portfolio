@@ -1,0 +1,110 @@
+/* ============================================
+   Project Detail page wrapper
+   ============================================ */
+
+.detail {
+  padding-top: 8rem;
+  min-height: 100vh;
+}
+
+.detail__top {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 6rem 2rem;
+}
+
+.detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--bone);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  transition: gap 0.4s ease, color 0.3s ease;
+}
+
+.detail__back:hover {
+  color: var(--ember-bright);
+  gap: 1.5rem;
+}
+
+/* Prev/Next pager */
+.detail__pager {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4rem 6rem 8rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  border-top: 1px solid var(--char);
+}
+
+.detail__pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: all 0.4s ease;
+}
+
+.detail__pager-link--next {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.detail__pager-dir {
+  color: var(--ember);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+}
+
+.detail__pager-name {
+  font-size: 1.5rem;
+  color: var(--pale);
+  font-style: italic;
+  transition: color 0.3s ease;
+}
+
+.detail__pager-link:hover .detail__pager-name {
+  color: var(--ember-bright);
+}
+
+/* Not found */
+.detail--notfound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  text-align: center;
+}
+
+.detail--notfound h1 {
+  font-size: 3rem;
+  color: var(--light);
+  font-style: italic;
+}
+
+.detail__back-link {
+  color: var(--ember);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+}
+
+@media (max-width: 768px) {
+  .detail__top { padding: 0 1.5rem 2rem; }
+  .detail__pager {
+    padding: 3rem 1.5rem 4rem;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .detail__pager-link--next {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .detail__pager-name { font-size: 1.2rem; }
+}

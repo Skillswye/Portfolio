@@ -1,5 +1,6 @@
 import React from 'react'
 import './Footer.css'
+import { Link } from 'react-router-dom'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -17,19 +18,18 @@ export default function Footer() {
           </div>
 
           <div className="footer__col footer__col--center">
-            <a href="#top" className="footer__top">
-              <span className="mono">Return to top</span>
+            <Link to="/" className="footer__top">
+              <span className="mono">Back to home</span>
               <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
                 <path d="M6 0 L6 18 M1 5 L6 0 L11 5" stroke="currentColor" strokeWidth="1" />
               </svg>
-            </a>
+            </Link>
           </div>
 
           <div className="footer__col footer__col--right">
             <span className="mono footer__label">— Colophon —</span>
             <p className="footer__colophon">
-              Designed &amp; built by Jason Zhao · {year}<br />
-              Cormorant Garamond, JetBrains Mono, Inter Tight
+              Designed &amp; built by Jason Zhao · {year}
             </p>
           </div>
         </div>

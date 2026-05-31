@@ -10,8 +10,8 @@ const phases = [
     role: 'Teaching the read',
     intent:
       'Symmetrical attacks are the purest spatial test. No punishment chain, no accumulating risk — only whether the player can find the gap before the wave arrives.',
-    timestamp: '00:00',
-    startSec: 0,
+    timestamp: '00:10',
+    startSec: 10,
   },
   {
     id: 2,
@@ -21,8 +21,8 @@ const phases = [
     role: 'Delayed punishment',
     intent:
       'The stun strips agency; the death zone falls after. Two attacks, one sentence — Phase 2 teaches the player that consequence can arrive on a delay.',
-    timestamp: '00:15',
-    startSec: 15,
+    timestamp: '00:18',
+    startSec: 18,
   },
   {
     id: 3,
@@ -43,8 +43,8 @@ const phases = [
     role: 'Final exam',
     intent:
       'The walls are the boss’s only gift — held back until the player has earned them. The full-screen AOE teaches the tool, then every prior phase replays. Not a test of reflexes; a test of memory.',
-    timestamp: '00:45',
-    startSec: 45,
+    timestamp: '00:52',
+    startSec: 52,
   },
 ]
 
