@@ -15,7 +15,7 @@ export default function About() {
           <span className="eyebrow">About</span>
           <h2 className="about__name display">
             Ziye Zhao
-            <span className="about__name-alt">— 赵子烨 · Jason</span>
+            <span className="about__name-alt">— <span className="about__name-cn">赵子烨</span> · Jason</span>
           </h2>
 
           <div className="about__bio">

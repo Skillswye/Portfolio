@@ -47,7 +47,8 @@
   font-size: 0.5em;
   color: var(--ember);
   font-style: normal;
-  margin-top: 0.75rem;
+  font-weight: 500;
+  margin-top: 1.5rem;
   letter-spacing: 0.1em;
 }
 
@@ -153,4 +154,12 @@
     grid-template-columns: 1fr;
     gap: 3rem;
   }
+}
+
+.about__name-cn {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.3em;
+  letter-spacing: 0.08em;
+  vertical-align: -0.12em;
+  display: inline-block;
 }
