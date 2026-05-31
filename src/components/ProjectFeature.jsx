@@ -1,5 +1,6 @@
 import React from 'react'
 import SpellAnatomy from './SpellAnatomy.jsx'
+import BossLoop from './BossLoop.jsx'
 import './ProjectFeature.css'
 
 export default function ProjectFeature({ project, index }) {
@@ -72,6 +73,7 @@ export default function ProjectFeature({ project, index }) {
       )}
 
       {project.showSpellAnatomy && <SpellAnatomy />}
+      {project.showBossLoop && <BossLoop />}
 
       {/* Media gallery — placeholders for now */}
       <div className="project__gallery reveal">

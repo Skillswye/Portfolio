@@ -1,0 +1,213 @@
+/* ============================================
+   Boss Encounter Loop figure — video version
+   ============================================ */
+
+.boss {
+  margin: 0 auto 6rem;
+  padding: 4rem 0;
+  border-top: 1px solid var(--char);
+  border-bottom: 1px solid var(--char);
+}
+
+.boss__header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.boss__header .eyebrow {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.boss__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--light);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+/* Video */
+.boss__video-wrap {
+  max-width: 1000px;
+  margin: 0 auto 4rem;
+}
+
+.boss__video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--void);
+  border: 1px solid var(--char);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(201, 137, 63, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.boss__video-frame:hover {
+  border-color: var(--ember-deep);
+}
+
+.boss__video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.boss__video-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mist);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  background: linear-gradient(135deg, var(--shadow) 0%, var(--char) 100%);
+}
+
+.boss__video-caption {
+  margin-top: 1rem;
+  color: var(--bone);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-align: center;
+}
+
+/* Phase grid 2x2 */
+.boss__phases {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto 4rem;
+}
+
+.boss__phase {
+  position: relative;
+  padding: 2rem;
+  background: rgba(20, 20, 26, 0.4);
+  border: 1px solid var(--char);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.boss__phase:hover {
+  border-color: var(--ember-deep);
+  background: rgba(20, 20, 26, 0.6);
+  transform: translateY(-2px);
+}
+
+.boss__phase--active {
+  border-color: var(--ember);
+  background: rgba(201, 137, 63, 0.06);
+  box-shadow: 0 0 20px rgba(230, 165, 90, 0.15);
+}
+
+.boss__phase-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.boss__phase-num {
+  color: var(--ember);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+}
+
+.boss__phase-time {
+  color: var(--bone);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+}
+
+.boss__phase-name {
+  font-size: 1.8rem;
+  color: var(--light);
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.boss__phase-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.boss__phase-element {
+  color: var(--ember-bright);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+}
+
+.boss__phase-dot {
+  color: var(--mist);
+}
+
+.boss__phase-role {
+  color: var(--bone);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+}
+
+.boss__phase-mechanic {
+  color: var(--pale);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--char);
+}
+
+.boss__phase-intent {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--pale);
+  font-weight: 300;
+}
+
+/* Quote */
+.boss__quote {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  line-height: 1.6;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--pale);
+}
+
+.boss__quote::before,
+.boss__quote::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--ember);
+  margin: 1.5rem auto;
+  opacity: 0.5;
+}
+
+@media (max-width: 900px) {
+  .boss__phases {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .boss__phase-name {
+    font-size: 1.5rem;
+  }
+}
