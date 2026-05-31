@@ -14,8 +14,8 @@ export default function About() {
         <div className="about__col-left reveal">
           <span className="eyebrow">About</span>
           <h2 className="about__name display">
-            Jason Zhao
-            <span className="about__name-alt">— 赵子烨</span>
+            Ziye Zhao
+            <span className="about__name-alt">— 赵子烨 · Jason</span>
           </h2>
 
           <div className="about__bio">

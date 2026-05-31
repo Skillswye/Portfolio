@@ -669,7 +669,7 @@ export default function Hero() {
         </div>
 
         <h1 className="hero__name display">
-          <span className="hero__name-line">Jason</span>
+          <span className="hero__name-line">Ziye</span>
           <span className="hero__name-line hero__name-line--alt">Zhao</span>
         </h1>
 
