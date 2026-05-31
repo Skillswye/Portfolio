@@ -26,9 +26,22 @@ export const featuredProjects = [
       { label: 'Spatial Systems', detail: 'Checkpoint respawn · ragdoll death · camera occlusion transparency · enemy-tagged doors' },
     ],
     media: [
-      { type: 'placeholder', caption: 'Spell grid in action' },
-      { type: 'placeholder', caption: 'Encounter design' },
-      { type: 'placeholder', caption: 'Co-op moment' },
+      {
+        type: 'paired',
+        caption: 'Wave Spawner — Designer\'s View',
+        note: 'Encounters written in data, not script',
+        dataSrc: '/wave-spawner-details.png',
+        dataAlt: 'Wave spawner Details panel showing data structure',
+        dataLabel: '— Design (Details Panel) —',
+        runtimeSrc: '/wave-spawner-runtime.png',
+        runtimeAlt: 'Runtime wave with ghosts and bomber spawned',
+        runtimeLabel: '— Runtime (Spawned) —',
+      },
+      {
+        type: 'placeholder',
+        caption: 'Patrol AI Logic',
+        note: 'Coming soon',
+      },
     ],
   },
   {

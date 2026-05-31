@@ -451,3 +451,110 @@
     margin-bottom: 3rem;
   }
 }
+
+/* ============================================
+   Paired figure (designer view vs runtime)
+   ============================================ */
+.project__media--paired {
+  grid-column: 1 / -1 !important;
+  grid-row: auto !important;
+}
+
+.project__paired {
+  display: grid;
+  grid-template-columns: 0.7fr 72px 1.3fr;
+  gap: 0;
+  background: var(--shadow);
+  border: 1px solid var(--char);
+  align-items: center;
+}
+
+.project__paired-half {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  min-height: 0;
+}
+
+.project__paired-half img {
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  object-fit: contain;
+  display: block;
+}
+
+.project__paired-half--data {
+  background: transparent;
+}
+
+.project__paired-half--runtime {
+  background: transparent;
+  padding: 1.5rem;
+  justify-content: center;
+}
+
+.project__paired-half--runtime img {
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: contain;
+}
+
+.project__paired-label {
+  margin-top: 1rem;
+  color: var(--ember);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-align: center;
+}
+
+.project__paired-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.project__paired-arrow {
+  color: var(--ember);
+  font-size: 4rem;
+}
+
+/* Single image figure */
+.project__image-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--char);
+  background: var(--shadow);
+}
+
+.project__image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project__media-note {
+  color: var(--bone);
+  font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .project__paired {
+    grid-template-columns: 1fr;
+  }
+  .project__paired-divider {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid var(--char);
+    border-bottom: 1px solid var(--char);
+    padding: 0.5rem;
+  }
+  .project__paired-arrow {
+    transform: rotate(90deg);
+  }
+}

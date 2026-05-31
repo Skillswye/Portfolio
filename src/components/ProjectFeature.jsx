@@ -75,22 +75,52 @@ export default function ProjectFeature({ project, index }) {
       {project.showSpellAnatomy && <SpellAnatomy />}
       {project.showBossLoop && <BossLoop />}
 
-      {/* Media gallery — placeholders for now */}
+      {/* Figure gallery — supports paired figures, single images, and placeholders */}
       <div className="project__gallery reveal">
         {project.media.map((m, i) => (
-          <figure key={i} className={`project__media project__media--${i}`}>
-            <div className="project__placeholder">
-              <div className="project__placeholder-grid">
-                {Array.from({ length: 9 }).map((_, idx) => (
-                  <span key={idx} />
-                ))}
+          <figure
+            key={i}
+            className={`project__media project__media--${i} ${
+              m.type === 'paired' ? 'project__media--paired' : ''
+            }`}
+          >
+            {m.type === 'paired' ? (
+              <div className="project__paired">
+                <div className="project__paired-half project__paired-half--data">
+                  <img src={m.dataSrc} alt={m.dataAlt || 'design data'} />
+                  <span className="mono project__paired-label">
+                    {m.dataLabel}
+                  </span>
+                </div>
+                <div className="project__paired-divider">
+                  <span className="mono project__paired-arrow">▸</span>
+                </div>
+                <div className="project__paired-half project__paired-half--runtime">
+                  <img src={m.runtimeSrc} alt={m.runtimeAlt || 'runtime result'} />
+                  <span className="mono project__paired-label">
+                    {m.runtimeLabel}
+                  </span>
+                </div>
               </div>
-              <span className="project__placeholder-label mono">
-                [ {m.caption} ]
-              </span>
-            </div>
+            ) : m.type === 'image' ? (
+              <div className="project__image-wrap">
+                <img src={m.src} alt={m.alt || m.caption} />
+              </div>
+            ) : (
+              <div className="project__placeholder">
+                <div className="project__placeholder-grid">
+                  {Array.from({ length: 9 }).map((_, idx) => (
+                    <span key={idx} />
+                  ))}
+                </div>
+                <span className="project__placeholder-label mono">
+                  [ {m.caption} ]
+                </span>
+              </div>
+            )}
             <figcaption className="project__media-caption mono">
               FIG. {String(i + 1).padStart(2, '0')} · {m.caption}
+              {m.note && <span className="project__media-note"> — {m.note}</span>}
             </figcaption>
           </figure>
         ))}
