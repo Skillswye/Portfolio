@@ -3,10 +3,9 @@
    ============================================ */
 
 .boss {
-  margin: 0 auto 6rem;
+  margin: 0 auto;
   padding: 4rem 0;
   border-top: 1px solid var(--char);
-  border-bottom: 1px solid var(--char);
 }
 
 .boss__header {

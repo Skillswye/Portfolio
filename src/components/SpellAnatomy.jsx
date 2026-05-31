@@ -225,7 +225,7 @@ export default function SpellAnatomy() {
   return (
     <section className="spell reveal">
       <header className="spell__header">
-        <span className="eyebrow">Fig. 02 / Spell Gesture Anatomy</span>
+        <span className="eyebrow">Fig. 01 / Spell Gesture Anatomy</span>
         <h3 className="spell__title display">
           A language drawn under fire.
         </h3>

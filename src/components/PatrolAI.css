@@ -1,0 +1,165 @@
+/* ============================================
+   Patrol AI state machine figure
+   ============================================ */
+
+.patrol {
+  margin: 0 auto;
+  padding: 4rem 0;
+  border-top: 1px solid var(--char);
+}
+
+.patrol__header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.patrol__header .eyebrow {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.patrol__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--light);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+/* Diagram */
+.patrol__diagram {
+  max-width: 760px;
+  margin: 0 auto 4rem;
+}
+
+.patrol__svg {
+  width: 100%;
+  height: auto;
+}
+
+.patrol__node {
+  fill: var(--shadow);
+  stroke: var(--ember);
+  stroke-width: 0.7;
+}
+
+.patrol__node-dim {
+  fill: var(--shadow);
+  stroke: var(--mist);
+  stroke-width: 0.5;
+}
+
+.patrol__node-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px;
+  fill: var(--light);
+}
+
+.patrol__node-sub {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  fill: var(--bone);
+}
+
+.patrol__trans {
+  stroke: var(--ember);
+  stroke-width: 1;
+  opacity: 0.7;
+}
+
+.patrol__trans-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  fill: var(--pale);
+}
+
+.patrol__label-bg {
+  fill: var(--night);
+}
+
+.patrol__detect-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  fill: var(--bone);
+}
+
+.patrol__variant-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  fill: var(--ember);
+}
+
+.patrol__variant-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  fill: var(--ember-bright);
+}
+
+.patrol__variant-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  fill: var(--bone);
+}
+
+/* Debug screenshot */
+.patrol__debug {
+  max-width: 900px;
+  margin: 0 auto 4rem;
+}
+
+.patrol__debug-frame {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--char);
+  background: var(--void);
+}
+
+.patrol__debug-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.patrol__debug-caption {
+  margin-top: 1rem;
+  color: var(--bone);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-align: center;
+}
+
+/* Quote */
+.patrol__quote {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  line-height: 1.6;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--pale);
+}
+
+.patrol__quote::before,
+.patrol__quote::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--ember);
+  margin: 1.5rem auto;
+  opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .patrol__node-name { font-size: 15px; }
+}

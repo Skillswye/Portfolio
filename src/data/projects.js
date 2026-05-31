@@ -17,32 +17,17 @@ export const featuredProjects = [
     trailerYoutubeId: 'gDNCiYdKa0c',
     showSpellAnatomy: true,
     showBossLoop: true,
+    showPatrolAI: true,
+    showWaveSpawner: true,
     logline:
       'Two players bound by an ancient pact — one wields the blade, the other draws magic from forbidden geometry. A spell-gesture system built on a 3×3 grid where every line is intention made manifest.',
     systems: [
       { label: 'Spell Gesture Grid', detail: '3×3 dot matrix · OnPaint line rendering · DataTable pattern matching' },
       { label: 'Gameplay Ability System', detail: 'GAS integration · rune charge resource gate · elemental binding' },
-      { label: 'Encounter Design', detail: 'Wave spawn director · patrol/chase AI · Blueprint Interface tagging' },
-      { label: 'Spatial Systems', detail: 'Checkpoint respawn · ragdoll death · camera occlusion transparency · enemy-tagged doors' },
+      { label: 'Room Encounter Design', detail: 'Wave spawn director · patrol/chase AI · Blueprint Interface tagging' },
+      { label: 'Boss Encounter Design', detail: 'Four-phase teaching loop · elemental escalation · delayed-punishment & risk-economy mechanics · 25% HP phase gates' },
     ],
-    media: [
-      {
-        type: 'paired',
-        caption: 'Wave Spawner — Designer\'s View',
-        note: 'Encounters written in data, not script',
-        dataSrc: '/wave-spawner-details.png',
-        dataAlt: 'Wave spawner Details panel showing data structure',
-        dataLabel: '— Design (Details Panel) —',
-        runtimeSrc: '/wave-spawner-runtime.png',
-        runtimeAlt: 'Runtime wave with ghosts and bomber spawned',
-        runtimeLabel: '— Runtime (Spawned) —',
-      },
-      {
-        type: 'placeholder',
-        caption: 'Patrol AI Logic',
-        note: 'Coming soon',
-      },
-    ],
+    media: [],
   },
   {
     id: 'systems-design',

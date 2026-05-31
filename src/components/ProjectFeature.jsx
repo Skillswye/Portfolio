@@ -1,6 +1,8 @@
 import React from 'react'
 import SpellAnatomy from './SpellAnatomy.jsx'
 import BossLoop from './BossLoop.jsx'
+import PatrolAI from './PatrolAI.jsx'
+import WaveSpawner from './WaveSpawner.jsx'
 import './ProjectFeature.css'
 
 export default function ProjectFeature({ project, index }) {
@@ -24,9 +26,6 @@ export default function ProjectFeature({ project, index }) {
 
       {/* Header — large project number + title */}
       <header className="project__header reveal">
-        <div className="project__number-wrap">
-          <span className="project__number display">{project.number}</span>
-        </div>
         <div className="project__title-wrap">
           <span className="eyebrow">{project.subtitle}</span>
           <h2 className="project__title display">{project.title}</h2>
@@ -74,8 +73,10 @@ export default function ProjectFeature({ project, index }) {
 
       {project.showSpellAnatomy && <SpellAnatomy />}
       {project.showBossLoop && <BossLoop />}
+      {project.showPatrolAI && <PatrolAI />}
+      {project.showWaveSpawner && <WaveSpawner />}
 
-      {/* Figure gallery — supports paired figures, single images, and placeholders */}
+      {project.media && project.media.length > 0 && (
       <div className="project__gallery reveal">
         {project.media.map((m, i) => (
           <figure
@@ -121,18 +122,19 @@ export default function ProjectFeature({ project, index }) {
               </div>
             )}
             <figcaption className="project__media-caption mono">
-              FIG. {String(i + 1).padStart(2, '0')} · {m.caption}
+              FIG. {String(i + 4).padStart(2, '0')} · {m.caption}
               {m.note && <span className="project__media-note"> — {m.note}</span>}
             </figcaption>
           </figure>
         ))}
       </div>
+      )}
 
       {/* Systems breakdown — the meat of the case study */}
       <div className="project__systems reveal">
         <h3 className="project__systems-title">
           <span className="eyebrow">Systems &amp; Decisions</span>
-          <span className="project__systems-heading display">What I built, and why.</span>
+          <span className="project__systems-heading display">What I built.</span>
         </h3>
         <ul className="project__systems-list">
           {project.systems.map((s, i) => (
@@ -147,15 +149,6 @@ export default function ProjectFeature({ project, index }) {
         </ul>
       </div>
 
-      {/* Reserved expansion zone — for design rationale, post-mortems, etc */}
-      <div className="project__reserved reveal">
-        <div className="project__reserved-inner">
-          <span className="mono project__reserved-tag">— Reserved —</span>
-          <p className="project__reserved-note">
-            Detailed design rationale, postmortem notes, and additional media to be added.
-          </p>
-        </div>
-      </div>
     </section>
   )
 }

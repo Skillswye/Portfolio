@@ -84,7 +84,7 @@ export default function BossLoop() {
   return (
     <section ref={sectionRef} className="boss reveal">
       <header className="boss__header">
-        <span className="eyebrow">Fig. 05 / Boss Encounter Loop</span>
+        <span className="eyebrow">Fig. 02 / Boss Encounter Loop</span>
         <h3 className="boss__title display">
           A teacher across four lessons.
         </h3>
@@ -109,7 +109,7 @@ export default function BossLoop() {
           )}
         </div>
         <p className="boss__video-caption mono">
-          Fig. 05a · 4-phase encounter loop · Click a phase below to jump
+          Fig. 02a · 4-phase encounter loop · Click a phase below to jump
         </p>
       </div>
 
