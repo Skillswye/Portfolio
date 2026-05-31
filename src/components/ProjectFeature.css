@@ -462,7 +462,7 @@
 
 .project__paired {
   display: grid;
-  grid-template-columns: 0.7fr 72px 1.3fr;
+  grid-template-columns: 0.7fr 80px 1.3fr;
   gap: 0;
   background: var(--shadow);
   border: 1px solid var(--char);
@@ -519,7 +519,9 @@
 
 .project__paired-arrow {
   color: var(--ember);
-  font-size: 4rem;
+  width: 44px;
+  height: 22px;
+  display: block;
 }
 
 /* Single image figure */

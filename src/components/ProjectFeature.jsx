@@ -93,7 +93,9 @@ export default function ProjectFeature({ project, index }) {
                   </span>
                 </div>
                 <div className="project__paired-divider">
-                  <span className="mono project__paired-arrow">▸</span>
+                  <svg className="project__paired-arrow" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 12 L40 12 M30 4 L42 12 L30 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </div>
                 <div className="project__paired-half project__paired-half--runtime">
                   <img src={m.runtimeSrc} alt={m.runtimeAlt || 'runtime result'} />
