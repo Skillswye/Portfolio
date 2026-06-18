@@ -690,11 +690,6 @@ export default function Hero() {
           </Link>
         </div>
       </div>
-
-      <div className="hero__scroll-hint">
-        <span className="mono">Scroll</span>
-        <div className="hero__scroll-line" />
-      </div>
     </section>
   )
 }
