@@ -6,10 +6,12 @@ import HomePage from './components/HomePage.jsx'
 import WorkIndex from './components/WorkIndex.jsx'
 import AboutPage from './components/AboutPage.jsx'
 import ProjectDetail from './components/ProjectDetail.jsx'
+import AxisCursor from './components/AxisCursor.jsx'
 
 export default function App() {
   return (
     <BrowserRouter>
+      <AxisCursor />
       <Nav />
       <Routes>
         <Route path="/" element={<HomePage />} />

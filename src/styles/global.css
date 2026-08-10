@@ -61,6 +61,12 @@ body {
   overflow-x: hidden;
 }
 
+/* Axis cursor — hide the OS cursor everywhere while the custom crosshair is active */
+html.axis-cursor-active,
+html.axis-cursor-active * {
+  cursor: none !important;
+}
+
 /* Film grain overlay — applied globally for atmosphere */
 body::before {
   content: '';
