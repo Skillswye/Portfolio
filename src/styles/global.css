@@ -195,3 +195,93 @@ button {
   color: inherit;
   cursor: pointer;
 }
+
+/* ============================================
+   <picture> must not create a box — child <img>
+   rules (height:100%, object-fit) resolve against
+   the original parent this way.
+   ============================================ */
+picture {
+  display: contents;
+}
+
+/* ============================================
+   Keyboard focus
+   Only shows for keyboard nav, never on mouse click.
+   ============================================ */
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+a:focus-visible,
+button:focus-visible {
+  color: var(--ember-bright);
+}
+
+/* Skip link — first tab stop, hidden until focused */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-sm);
+  z-index: 1000;
+  padding: 0.75rem 1.25rem;
+  background: var(--night);
+  color: var(--light);
+  border: 1px solid var(--ember);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.skip-link:focus {
+  top: var(--space-sm);
+}
+
+/* When the keyboard is in use the custom crosshair steps aside
+   so focus is never invisible (see AxisCursor.jsx). */
+html.keyboard-nav,
+html.keyboard-nav * {
+  cursor: auto !important;
+}
+
+/* ============================================
+   Reduced motion
+   Honour the OS "reduce motion" setting: kill
+   decorative movement, keep state feedback.
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Reveal-on-scroll content must stay readable, not stuck at opacity 0 */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Decorative atmosphere layers off: film grain, vignette, particles */
+  body::before,
+  body::after {
+    display: none;
+  }
+
+  /* Colour/opacity feedback is still useful — re-enable just that,
+     fast enough to read as instant but not jarring. */
+  a,
+  button {
+    transition: color 0.01ms !important;
+  }
+}

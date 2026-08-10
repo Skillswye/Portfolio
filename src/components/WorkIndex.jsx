@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { featuredProjects } from '../data/projects.js'
+import ResponsiveImage from './ResponsiveImage.jsx'
 import './WorkIndex.css'
 
 export default function WorkIndex() {
@@ -47,7 +48,14 @@ export default function WorkIndex() {
             {/* Visual */}
             <div className="work__card-visual">
               {project.poster ? (
-                <img src={project.poster} alt={`${project.title} poster`} />
+                <ResponsiveImage
+                  webpSrcSet={project.posterWebp}
+                  fallbackSrc={project.poster}
+                  width={project.posterWidth}
+                  height={project.posterHeight}
+                  sizes="(max-width: 768px) 100vw, 420px"
+                  alt={`${project.title} poster`}
+                />
               ) : (
                 <div className="work__card-placeholder">
                   <div className="work__card-placeholder-grid">

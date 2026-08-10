@@ -53,7 +53,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: var(--mist);
+  color: var(--bone);
   margin-bottom: 3rem;
   opacity: 0;
   animation: hero-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
@@ -168,7 +168,7 @@
   bottom: 3rem;
   right: 6rem;
   z-index: 5;
-  color: var(--mist);
+  color: var(--bone);
   font-size: 0.6rem;
   letter-spacing: 0.25em;
   opacity: 0;

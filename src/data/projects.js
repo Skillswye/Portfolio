@@ -13,7 +13,11 @@ export const featuredProjects = [
     engine: 'Unreal Engine 5 · Blueprint',
     role: 'Designer & Developer',
     tagline: 'A vow rendered as mechanics.',
-    poster: '/runic-vanguard-poster.jpg',
+    poster: '/runic-vanguard-poster-fallback.jpg',
+    posterWebp:
+      '/runic-vanguard-poster-600.webp 600w, /runic-vanguard-poster-1200.webp 1200w',
+    posterWidth: 1600,
+    posterHeight: 2399,
     trailerYoutubeId: 'gDNCiYdKa0c',
     showSpellAnatomy: true,
     showBossLoop: true,

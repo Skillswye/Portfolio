@@ -12,13 +12,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <AxisCursor />
+      <a className="skip-link" href="#main">Skip to content</a>
       <Nav />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/work" element={<WorkIndex />} />
-        <Route path="/work/:projectId" element={<ProjectDetail />} />
-        <Route path="/about" element={<AboutPage />} />
-      </Routes>
+      <main id="main">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/work" element={<WorkIndex />} />
+          <Route path="/work/:projectId" element={<ProjectDetail />} />
+          <Route path="/about" element={<AboutPage />} />
+        </Routes>
+      </main>
       <Footer />
     </BrowserRouter>
   )

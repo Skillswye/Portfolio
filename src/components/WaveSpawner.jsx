@@ -1,4 +1,5 @@
 import React from 'react'
+import ResponsiveImage from './ResponsiveImage.jsx'
 import './WaveSpawner.css'
 
 export default function WaveSpawner() {
@@ -99,7 +100,14 @@ export default function WaveSpawner() {
       <figure className="wave__figure">
         <div className="wave__paired">
           <div className="wave__half wave__half--data">
-            <img src="/wave-spawner-details.png" alt="Wave spawner Details panel showing data structure" />
+            <ResponsiveImage
+              webpSrcSet="/wave-spawner-details-467.webp 467w"
+              fallbackSrc="/wave-spawner-details-fallback.jpg"
+              width={467}
+              height={386}
+              sizes="(max-width: 900px) 100vw, 467px"
+              alt="Wave spawner Details panel showing data structure"
+            />
             <span className="mono wave__label">— Design (Details Panel) —</span>
           </div>
           <div className="wave__divider">
@@ -108,7 +116,14 @@ export default function WaveSpawner() {
             </svg>
           </div>
           <div className="wave__half wave__half--runtime">
-            <img src="/wave-spawner-runtime.png" alt="Runtime wave with ghosts and bomber spawned" />
+            <ResponsiveImage
+              webpSrcSet="/wave-spawner-runtime-1200.webp 1200w, /wave-spawner-runtime-2000.webp 2000w"
+              fallbackSrc="/wave-spawner-runtime-fallback.jpg"
+              width={2555}
+              height={1356}
+              sizes="(max-width: 900px) 100vw, 600px"
+              alt="Runtime wave with ghosts and bomber spawned"
+            />
             <span className="mono wave__label">— Runtime (Spawned) —</span>
           </div>
         </div>

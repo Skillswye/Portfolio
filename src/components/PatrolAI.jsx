@@ -1,4 +1,5 @@
 import React from 'react'
+import ResponsiveImage from './ResponsiveImage.jsx'
 import './PatrolAI.css'
 
 export default function PatrolAI() {
@@ -86,7 +87,14 @@ export default function PatrolAI() {
       {/* Live debug screenshot */}
       <figure className="patrol__debug">
         <div className="patrol__debug-frame">
-          <img src="/patrol-ai-debug.png" alt="UE5 AI Perception debug visualization showing sight cone and detection range" />
+          <ResponsiveImage
+            webpSrcSet="/patrol-ai-debug-1200.webp 1200w, /patrol-ai-debug-2000.webp 2000w"
+            fallbackSrc="/patrol-ai-debug-fallback.jpg"
+            width={2553}
+            height={1354}
+            sizes="(max-width: 900px) 100vw, 1200px"
+            alt="UE5 AI Perception debug visualization showing sight cone and detection range"
+          />
         </div>
         <figcaption className="patrol__debug-caption mono">
           Fig. 03a · Live AI Perception debug · 120° sight cone · 800 unit range

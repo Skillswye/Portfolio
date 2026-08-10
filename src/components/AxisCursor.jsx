@@ -13,14 +13,43 @@ export default function AxisCursor() {
   // freezes the crosshair at their edge. While the pointer is over an iframe we
   // hide the crosshair and restore the native cursor so the embed stays usable.
   const [overIframe, setOverIframe] = useState(false)
+  // Keyboard users must be able to see where focus is. The crosshair hides the
+  // OS cursor site-wide, so the moment someone tabs we stand down and hand the
+  // native cursor + focus ring back. Any mouse movement resumes the crosshair.
+  const [keyboardNav, setKeyboardNav] = useState(false)
 
   useEffect(() => {
     const mq = window.matchMedia('(pointer: fine)')
-    const update = () => setEnabled(mq.matches)
+    const motionMq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    // A crosshair that tracks the pointer is continuous motion — skip it
+    // entirely when the OS asks for reduced motion.
+    const update = () => setEnabled(mq.matches && !motionMq.matches)
     update()
     mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
+    motionMq.addEventListener('change', update)
+    return () => {
+      mq.removeEventListener('change', update)
+      motionMq.removeEventListener('change', update)
+    }
   }, [])
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Tab') setKeyboardNav(true)
+    }
+    const onPointerMove = () => setKeyboardNav(false)
+    window.addEventListener('keydown', onKeyDown)
+    window.addEventListener('mousemove', onPointerMove, { passive: true })
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('mousemove', onPointerMove)
+    }
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('keyboard-nav', keyboardNav)
+    return () => document.documentElement.classList.remove('keyboard-nav')
+  }, [keyboardNav])
 
   useEffect(() => {
     // mouseover/mouseout bubble and fire on the iframe element as the pointer
@@ -40,7 +69,7 @@ export default function AxisCursor() {
     }
   }, [])
 
-  const active = enabled && !overIframe
+  const active = enabled && !overIframe && !keyboardNav
 
   useEffect(() => {
     // Hide the OS cursor everywhere while the axis cursor is active.

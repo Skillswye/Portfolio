@@ -1,4 +1,5 @@
 import React from 'react'
+import ResponsiveImage from './ResponsiveImage.jsx'
 import SpellAnatomy from './SpellAnatomy.jsx'
 import BossLoop from './BossLoop.jsx'
 import PatrolAI from './PatrolAI.jsx'
@@ -19,7 +20,15 @@ export default function ProjectFeature({ project, index }) {
 
       {project.poster && (
         <div className="project__poster reveal">
-          <img src={project.poster} alt={`${project.title} poster`} />
+          <ResponsiveImage
+            webpSrcSet={project.posterWebp}
+            fallbackSrc={project.poster}
+            width={project.posterWidth}
+            height={project.posterHeight}
+            sizes="(max-width: 900px) 100vw, 800px"
+            eager
+            alt={`${project.title} poster`}
+          />
           <div className="project__poster-overlay" />
         </div>
       )}
@@ -88,7 +97,14 @@ export default function ProjectFeature({ project, index }) {
             {m.type === 'paired' ? (
               <div className="project__paired">
                 <div className="project__paired-half project__paired-half--data">
-                  <img src={m.dataSrc} alt={m.dataAlt || 'design data'} />
+                  <ResponsiveImage
+                    webpSrcSet={m.dataWebp}
+                    fallbackSrc={m.dataSrc}
+                    width={m.dataWidth}
+                    height={m.dataHeight}
+                    sizes="(max-width: 900px) 100vw, 600px"
+                    alt={m.dataAlt || 'design data'}
+                  />
                   <span className="mono project__paired-label">
                     {m.dataLabel}
                   </span>
@@ -99,7 +115,14 @@ export default function ProjectFeature({ project, index }) {
                   </svg>
                 </div>
                 <div className="project__paired-half project__paired-half--runtime">
-                  <img src={m.runtimeSrc} alt={m.runtimeAlt || 'runtime result'} />
+                  <ResponsiveImage
+                    webpSrcSet={m.runtimeWebp}
+                    fallbackSrc={m.runtimeSrc}
+                    width={m.runtimeWidth}
+                    height={m.runtimeHeight}
+                    sizes="(max-width: 900px) 100vw, 600px"
+                    alt={m.runtimeAlt || 'runtime result'}
+                  />
                   <span className="mono project__paired-label">
                     {m.runtimeLabel}
                   </span>
@@ -107,7 +130,14 @@ export default function ProjectFeature({ project, index }) {
               </div>
             ) : m.type === 'image' ? (
               <div className="project__image-wrap">
-                <img src={m.src} alt={m.alt || m.caption} />
+                <ResponsiveImage
+                  webpSrcSet={m.webp}
+                  fallbackSrc={m.src}
+                  width={m.width}
+                  height={m.height}
+                  sizes="(max-width: 900px) 100vw, 1200px"
+                  alt={m.alt || m.caption}
+                />
               </div>
             ) : (
               <div className="project__placeholder">
