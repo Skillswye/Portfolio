@@ -653,8 +653,9 @@ export default function Hero() {
         <div
           className="hero__body-label"
           style={{
-            left: mousePos.x + 16,
+            left: mousePos.x - 16,
             top: mousePos.y - 8,
+            transform: 'translateX(-100%)',
           }}
         >
           <span className="mono">{hoveredBody.label}</span>
