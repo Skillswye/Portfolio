@@ -654,7 +654,7 @@ export default function Hero() {
           className="hero__body-label"
           style={{
             left: mousePos.x - 16,
-            top: mousePos.y - 8,
+            top: mousePos.y - 44,
             transform: 'translateX(-100%)',
           }}
         >
