@@ -131,8 +131,8 @@ export default function Hero() {
         baseRadius: 0.385,
         size: 11,
         hue: 38,
-        sat: 45,
-        lit: 65,
+        sat: 54,
+        lit: 73,
         period: 9,
         angle: Math.random() * Math.PI * 2,
         rotationSpeed: 0.05,
@@ -313,12 +313,12 @@ export default function Hero() {
       // Back half of ring (behind planet)
       ctx.beginPath()
       ctx.ellipse(0, 0, planetSize * 2.2, planetSize * 0.55, 0, Math.PI, Math.PI * 2)
-      ctx.strokeStyle = 'rgba(220, 190, 140, 0.45)'
+      ctx.strokeStyle = 'rgba(230, 200, 150, 0.65)'
       ctx.lineWidth = 2
       ctx.stroke()
       ctx.beginPath()
       ctx.ellipse(0, 0, planetSize * 1.75, planetSize * 0.44, 0, Math.PI, Math.PI * 2)
-      ctx.strokeStyle = 'rgba(220, 190, 140, 0.25)'
+      ctx.strokeStyle = 'rgba(230, 200, 150, 0.4)'
       ctx.lineWidth = 1
       ctx.stroke()
       ctx.restore()
@@ -331,12 +331,12 @@ export default function Hero() {
       // Front half of ring (in front of planet)
       ctx.beginPath()
       ctx.ellipse(0, 0, planetSize * 2.2, planetSize * 0.55, 0, 0, Math.PI)
-      ctx.strokeStyle = 'rgba(220, 190, 140, 0.55)'
+      ctx.strokeStyle = 'rgba(230, 200, 150, 0.75)'
       ctx.lineWidth = 2
       ctx.stroke()
       ctx.beginPath()
       ctx.ellipse(0, 0, planetSize * 1.75, planetSize * 0.44, 0, 0, Math.PI)
-      ctx.strokeStyle = 'rgba(220, 190, 140, 0.3)'
+      ctx.strokeStyle = 'rgba(230, 200, 150, 0.5)'
       ctx.lineWidth = 1
       ctx.stroke()
       ctx.restore()
