@@ -145,6 +145,17 @@ body::after {
   margin: 0 auto;
 }
 
+@media (min-width: 1600px) {
+  :root {
+    --space-lg: 6rem;
+    --space-xl: 10rem;
+    --space-2xl: 16rem;
+  }
+  .section {
+    max-width: 1600px;
+  }
+}
+
 @media (max-width: 768px) {
   .section {
     padding: var(--space-xl) var(--space-md);
