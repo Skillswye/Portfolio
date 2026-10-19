@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 interface CrosshairCursorProps {
   verticalColor?: string;
@@ -23,57 +22,6 @@ interface CrosshairCursorProps {
   /** Fade in/out duration in seconds. Pass 0 to disable the fade. */
   fadeDuration?: number;
 }
-
-const useMousePosition = (containerRef: RefObject<HTMLDivElement | null>) => {
-  const [mousePosition, setMousePosition] = useState<{
-    x: number | null;
-    y: number | null;
-  }>({ x: null, y: null });
-  const [isInside, setIsInside] = useState(false);
-
-  useEffect(() => {
-    const updatePosition = (clientX: number, clientY: number) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const relativeX = clientX - rect.left;
-        const relativeY = clientY - rect.top;
-        const mouseInside =
-          relativeX >= 0 &&
-          relativeX <= rect.width &&
-          relativeY >= 0 &&
-          relativeY <= rect.height;
-        setMousePosition({ x: relativeX, y: relativeY });
-        setIsInside(mouseInside);
-      }
-    };
-    const handleMouseMove = (ev: MouseEvent) => {
-      updatePosition(ev.clientX, ev.clientY);
-    };
-    const handleTouchMove = (ev: TouchEvent) => {
-      const touch = ev.touches[0];
-      updatePosition(touch.clientX, touch.clientY);
-    };
-    const handleMouseEnter = () => setIsInside(true);
-    const handleMouseLeave = () => setIsInside(false);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("touchmove", handleTouchMove);
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener("mouseenter", handleMouseEnter);
-      container.addEventListener("mouseleave", handleMouseLeave);
-    }
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("touchmove", handleTouchMove);
-      if (container) {
-        container.removeEventListener("mouseenter", handleMouseEnter);
-        container.removeEventListener("mouseleave", handleMouseLeave);
-      }
-    };
-  }, [containerRef]);
-
-  return { mousePosition, isInside };
-};
 
 export default function CrosshairCursor({
   verticalColor = "white",
@@ -101,13 +49,83 @@ export default function CrosshairCursor({
   labelRadius = 1,
   fadeDuration = 0.2,
 }: CrosshairCursorProps) {
-  const fade = { duration: fadeDuration, ease: "easeInOut" } as const;
   const containerRef = useRef<HTMLDivElement>(null);
-  const { mousePosition, isInside } = useMousePosition(containerRef);
+  const verticalRef = useRef<HTMLDivElement>(null);
+  const horizontalRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
+  const positionTextRef = useRef<HTMLSpanElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const crosshairPosition = { x: mousePosition.x || 0, y: mousePosition.y || 0 };
-  const hasValidMousePosition = mousePosition.x !== null && mousePosition.y !== null;
-  const isVisible = hasValidMousePosition && isInside;
+  // Position updates bypass React entirely: pointer events are coalesced into
+  // one requestAnimationFrame write of compositor-only transforms, so moving
+  // the cursor never re-renders or forces layout. React state only changes
+  // when the crosshair is shown or hidden.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let rect = container.getBoundingClientRect();
+    let clientX = 0;
+    let clientY = 0;
+    let frame = 0;
+
+    const measure = () => {
+      rect = container.getBoundingClientRect();
+    };
+
+    const render = () => {
+      frame = 0;
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      setIsVisible(x >= 0 && x <= rect.width && y >= 0 && y <= rect.height);
+
+      if (verticalRef.current) verticalRef.current.style.transform = `translate3d(${x}px, 0, 0)`;
+      if (horizontalRef.current) horizontalRef.current.style.transform = `translate3d(0, ${y}px, 0)`;
+      if (dotRef.current) dotRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      if (labelRef.current) labelRef.current.style.transform = `translate3d(${x + 12}px, ${y + 12}px, 0)`;
+      if (positionTextRef.current) {
+        positionTextRef.current.textContent = `X: ${Math.round(x)}  Y: ${Math.round(y)}`;
+      }
+    };
+
+    const schedule = (x: number, y: number) => {
+      clientX = x;
+      clientY = y;
+      if (!frame) frame = requestAnimationFrame(render);
+    };
+    const handleMouseMove = (ev: MouseEvent) => schedule(ev.clientX, ev.clientY);
+    const handleTouchMove = (ev: TouchEvent) => {
+      const touch = ev.touches[0];
+      if (touch) schedule(touch.clientX, touch.clientY);
+    };
+    // Pointer left the browser window — hide rather than freeze at the edge.
+    const handleWindowLeave = () => setIsVisible(false);
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("resize", measure);
+    window.addEventListener("scroll", measure, { capture: true, passive: true });
+    document.documentElement.addEventListener("mouseleave", handleWindowLeave);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", measure, { capture: true });
+      document.documentElement.removeEventListener("mouseleave", handleWindowLeave);
+    };
+  }, []);
+
+  const layer: CSSProperties = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    pointerEvents: "none",
+    willChange: "transform",
+    opacity: isVisible ? 1 : 0,
+    transition: `opacity ${fadeDuration}s ease-in-out`,
+  };
 
   return (
     <div
@@ -121,62 +139,45 @@ export default function CrosshairCursor({
         cursor: "none",
       }}
     >
-      <motion.div
+      <div
+        ref={verticalRef}
         style={{
-          left: `${crosshairPosition.x}px`,
-          position: "absolute",
-          top: 0,
+          ...layer,
           height: "100vh",
           width: verticalThickness,
-          transform: "translateX(-50%)",
-          pointerEvents: "none",
+          marginLeft: -verticalThickness / 2,
           backgroundColor: verticalColor,
         }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isVisible ? 1 : 0 }}
-        transition={fade}
       />
-      <motion.div
+      <div
+        ref={horizontalRef}
         style={{
-          top: `${crosshairPosition.y}px`,
-          position: "absolute",
-          left: 0,
+          ...layer,
           width: "100vw",
           height: horizontalThickness,
-          transform: "translateY(-50%)",
-          pointerEvents: "none",
+          marginTop: -horizontalThickness / 2,
           backgroundColor: horizontalColor,
         }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isVisible ? 1 : 0 }}
-        transition={fade}
       />
       {dotDisabled ? null : (
-        <motion.div
+        <div
+          ref={dotRef}
           style={{
-            top: `${crosshairPosition.y}px`,
-            left: `${crosshairPosition.x}px`,
-            position: "absolute",
+            ...layer,
             width: dotSize,
             height: dotSize,
+            marginLeft: -dotSize / 2,
+            marginTop: -dotSize / 2,
             borderRadius: "100%",
             backgroundColor: dotColor,
-            transform: "translate(-50%, -50%)",
-            pointerEvents: "none",
           }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isVisible ? 1 : 0 }}
-          transition={fade}
         />
       )}
       {showPosition && (
-        <motion.div
+        <div
+          ref={labelRef}
           style={{
-            top: `${crosshairPosition.y}px`,
-            left: `${crosshairPosition.x}px`,
-            position: "absolute",
-            transform: "translate(12px, 12px)",
-            pointerEvents: "none",
+            ...layer,
             lineHeight: 1,
             ...labelFont,
             color: labelColor,
@@ -185,14 +186,9 @@ export default function CrosshairCursor({
             borderRadius: labelRadius,
             whiteSpace: "nowrap",
           }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isVisible ? 1 : 0 }}
-          transition={fade}
         >
-          {labelMode === "custom"
-            ? labelText
-            : `X: ${Math.round(crosshairPosition.x)}  Y: ${Math.round(crosshairPosition.y)}`}
-        </motion.div>
+          {labelMode === "custom" ? labelText : <span ref={positionTextRef} />}
+        </div>
       )}
     </div>
   );

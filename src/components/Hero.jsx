@@ -13,6 +13,7 @@ export default function Hero() {
     const ctx = canvas.getContext('2d')
     let raf
     let mouse = { x: -1000, y: -1000, active: false }
+    let hoveredName = null
     let bursts = []
     let solarBoost = 0 // sun double-click effect
     let meteors = []
@@ -173,7 +174,6 @@ export default function Hero() {
       mouse.x = e.clientX
       mouse.y = e.clientY
       mouse.active = true
-      setMousePos({ x: e.clientX, y: e.clientY })
 
       // Check hover
       let found = null
@@ -195,12 +195,20 @@ export default function Hero() {
           }
         }
       }
-      setHoveredBody(found)
+      // Only re-render the hero while a body is hovered (the label follows the
+      // pointer) or when the hovered body changes — not on every mouse move.
+      if (found) setMousePos({ x: e.clientX, y: e.clientY })
+      const name = found ? found.name : null
+      if (name !== hoveredName) {
+        hoveredName = name
+        setHoveredBody(found)
+      }
     }
     const onLeave = () => {
       mouse.active = false
       mouse.x = -1000
       mouse.y = -1000
+      hoveredName = null
       setHoveredBody(null)
     }
     const onDblClick = (e) => {
