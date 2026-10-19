@@ -58,6 +58,8 @@ npm run preview  # 本地预览生产构建
 - 滚动渐入：≤ 600ms（`.reveal` + IntersectionObserver，见各页面组件）
 - **所有动效必须能被 `prefers-reduced-motion: reduce` 关掉**，global.css 底部已有全局兜底 block，新增动画时确认它能覆盖到。
 - 自定义十字光标 `AxisCursor.jsx` 有三重降级：非精确指针、iframe 悬停、键盘导航时自动让位。改它的时候别破坏这三条。
+  `prefers-reduced-motion` **不**关闭准星（它跟随用户的手 1:1 移动，不算动画），只把淡入淡出设为 0。
+- 首页 `Hero.jsx` 的 canvas 动画以「60fps 帧」为单位、按 `dt` 推进 —— 新增任何运动量都要乘 `dt`，否则在高刷屏（Jason 的显示器是 319Hz）上会快好几倍。
 
 ## 图片
 

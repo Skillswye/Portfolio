@@ -19,7 +19,23 @@ export default function Hero() {
     let nextMeteorTime = 200 + Math.random() * 400
     let ships = []
     let shipSummonTimer = 0
+    // All motion below is tuned in "60fps frames". `dt` is how many of those
+    // frames actually elapsed, so speeds match on 60Hz, 144Hz and 300Hz+ screens.
+    const FRAME_MS = 1000 / 60
     let time = 0
+    let dt = 1
+    let lastFrame = 0
+
+    // Record trail points at a fixed 60fps cadence so trail length doesn't
+    // shrink on high-refresh screens.
+    const recordTrail = (o, maxLen) => {
+      o.trailAcc = (o.trailAcc || 0) + dt
+      while (o.trailAcc >= 1) {
+        o.trail.push({ x: o.x, y: o.y })
+        o.trailAcc -= 1
+      }
+      while (o.trail.length > maxLen) o.trail.shift()
+    }
 
     const resize = () => {
       canvas.width = window.innerWidth
@@ -342,8 +358,11 @@ export default function Hero() {
       ctx.restore()
     }
 
-    const animate = () => {
-      time += 1
+    const animate = (now) => {
+      // Clamp so a backgrounded tab doesn't jump everything forward on return.
+      dt = lastFrame ? Math.min((now - lastFrame) / FRAME_MS, 3) : 1
+      lastFrame = now
+      time += dt
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       // ----- Background particles -----
@@ -353,21 +372,22 @@ export default function Hero() {
           const dy = p.y - mouse.y
           const d = Math.sqrt(dx * dx + dy * dy)
           if (d < 100 && d > 0) {
-            const force = ((100 - d) / 100) * 0.06
+            const force = ((100 - d) / 100) * 0.06 * dt
             p.vx += (dx / d) * force
             p.vy += (dy / d) * force
           }
         }
-        p.vx *= 0.97
-        p.vy *= 0.97
+        const damping = Math.pow(0.97, dt)
+        p.vx *= damping
+        p.vy *= damping
         const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy)
         if (speed < 0.04) {
-          p.vx += (Math.random() - 0.5) * 0.02
-          p.vy += (Math.random() - 0.5) * 0.02
+          p.vx += (Math.random() - 0.5) * 0.02 * dt
+          p.vy += (Math.random() - 0.5) * 0.02 * dt
         }
-        p.x += p.vx
-        p.y += p.vy
-        p.pulse += 0.01
+        p.x += p.vx * dt
+        p.y += p.vy * dt
+        p.pulse += 0.01 * dt
         if (p.x < 0) p.x = canvas.width
         if (p.x > canvas.width) p.x = 0
         if (p.y < 0) p.y = canvas.height
@@ -380,7 +400,7 @@ export default function Hero() {
       })
 
       // ----- Solar boost decay -----
-      solarBoost *= 0.96
+      solarBoost *= Math.pow(0.96, dt)
 
       // ----- Draw orbit lines (very subtle) -----
       planets.forEach((p) => {
@@ -414,8 +434,8 @@ export default function Hero() {
 
       // Sort by y to handle depth (back planets drawn first when behind sun)
       const planetData = planets.map((p) => {
-        p.angle += (0.003 / p.period) * speedMultiplier
-        p.rotation += p.rotationSpeed * speedMultiplier
+        p.angle += (0.003 / p.period) * speedMultiplier * dt
+        p.rotation += p.rotationSpeed * speedMultiplier * dt
         const r = p.baseRadius * scale
         return {
           planet: p,
@@ -438,7 +458,7 @@ export default function Hero() {
         // Moons
         if (planet.moons && planet.moons.length > 0) {
           planet.moons.forEach((moon) => {
-            moon.angle += (0.01 / moon.period) * speedMultiplier
+            moon.angle += (0.01 / moon.period) * speedMultiplier * dt
             const mr = moon.baseRadius * scale
             const mx = x + Math.cos(moon.angle) * mr
             const my = y + Math.sin(moon.angle) * mr * 0.55
@@ -486,16 +506,15 @@ export default function Hero() {
           trail: [],
           big: isBig,
         })
-        // Schedule next meteor 8-15 seconds out (assuming ~60fps)
+        // Schedule next meteor 8-15 seconds out (time is in 60fps frames)
         nextMeteorTime = time + 480 + Math.random() * 420
       }
 
       meteors = meteors.filter((m) => {
-        m.trail.push({ x: m.x, y: m.y })
-        if (m.trail.length > (m.big ? 18 : 12)) m.trail.shift()
-        m.x += m.vx
-        m.y += m.vy
-        m.life += 1
+        recordTrail(m, m.big ? 18 : 12)
+        m.x += m.vx * dt
+        m.y += m.vy * dt
+        m.life += dt
 
         // Draw trail (amber tail)
         for (let i = 0; i < m.trail.length - 1; i++) {
@@ -549,10 +568,9 @@ export default function Hero() {
       }
 
       ships = ships.filter((s) => {
-        s.x += s.vx
-        s.blink += 0.08
-        s.trail.push({ x: s.x, y: s.y })
-        if (s.trail.length > 60) s.trail.shift()
+        s.x += s.vx * dt
+        s.blink += 0.08 * dt
+        recordTrail(s, 60)
 
         // Engine trail — extremely faint
         for (let i = 0; i < s.trail.length - 1; i++) {
@@ -609,7 +627,7 @@ export default function Hero() {
 
       // ----- Burst ripples -----
       bursts = bursts.filter((burst) => {
-        burst.age += 1
+        burst.age += dt
         const progress = burst.age / burst.max
         if (progress >= 1) return false
         const maxRadius = burst.big ? 350 : 180
@@ -630,7 +648,7 @@ export default function Hero() {
 
       raf = requestAnimationFrame(animate)
     }
-    animate()
+    raf = requestAnimationFrame(animate)
 
     return () => {
       cancelAnimationFrame(raf)
