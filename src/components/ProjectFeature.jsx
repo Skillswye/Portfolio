@@ -63,14 +63,15 @@ export default function ProjectFeature({ project, index }) {
         <p className="project__logline">{project.logline}</p>
       </div>
 
-      {project.trailerYoutubeId && (
+      {project.trailerVimeoId && (
         <div className="project__trailer reveal">
           <div className="project__trailer-frame">
             <iframe
-              src={`https://www.youtube-nocookie.com/embed/${project.trailerYoutubeId}?rel=0&modestbranding=1`}
+              src={`https://player.vimeo.com/video/${project.trailerVimeoId}?title=0&byline=0&portrait=0&dnt=1`}
               title={`${project.title} trailer`}
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             />
           </div>
@@ -81,7 +82,7 @@ export default function ProjectFeature({ project, index }) {
       )}
 
       {project.showSpellAnatomy && <SpellAnatomy />}
-      {project.showBossLoop && <BossLoop />}
+      {project.showBossLoop && <BossLoop vimeoId={project.bossLoopVimeoId} />}
       {project.showPatrolAI && <PatrolAI />}
       {project.showWaveSpawner && <WaveSpawner />}
 

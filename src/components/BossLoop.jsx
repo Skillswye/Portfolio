@@ -48,13 +48,43 @@ const phases = [
   },
 ]
 
-const YOUTUBE_ID = 'BEi1GysnApc'
+const VIMEO_ORIGIN = 'https://player.vimeo.com'
 
-export default function BossLoop() {
+export default function BossLoop({ vimeoId }) {
   const [activePhase, setActivePhase] = useState(null)
   const [videoLoaded, setVideoLoaded] = useState(false)
   const videoRef = useRef(null)
   const sectionRef = useRef(null)
+  // Set once the Vimeo player posts its "ready" event — before that it ignores
+  // postMessage commands, so a click falls back to reloading at the timestamp.
+  const playerReadyRef = useRef(false)
+
+  const embedSrc = `${VIMEO_ORIGIN}/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1`
+
+  useEffect(() => {
+    const onMessage = (e) => {
+      if (e.origin !== VIMEO_ORIGIN) return
+      if (!videoRef.current || e.source !== videoRef.current.contentWindow) return
+      let data = e.data
+      if (typeof data === 'string') {
+        try {
+          data = JSON.parse(data)
+        } catch {
+          return
+        }
+      }
+      if (data && data.event === 'ready') playerReadyRef.current = true
+    }
+    window.addEventListener('message', onMessage)
+    return () => window.removeEventListener('message', onMessage)
+  }, [])
+
+  const sendToPlayer = (method, value) => {
+    videoRef.current.contentWindow.postMessage(
+      JSON.stringify(value === undefined ? { method } : { method, value }),
+      VIMEO_ORIGIN
+    )
+  }
 
   // Lazy-load the iframe only when the section enters view
   useEffect(() => {
@@ -75,9 +105,13 @@ export default function BossLoop() {
 
   const handlePhaseClick = (phase) => {
     setActivePhase(phase.id)
-    // Reload iframe with new start time to jump to that timestamp
-    if (videoRef.current) {
-      videoRef.current.src = `https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?start=${phase.startSec}&autoplay=1&rel=0&modestbranding=1`
+    if (!videoRef.current) return
+    if (playerReadyRef.current) {
+      // Seek the live player in place — no reload, no black flash.
+      sendToPlayer('setCurrentTime', phase.startSec)
+      sendToPlayer('play')
+    } else {
+      videoRef.current.src = `${embedSrc}&autoplay=1#t=${phase.startSec}s`
     }
   }
 
@@ -96,10 +130,11 @@ export default function BossLoop() {
           {videoLoaded ? (
             <iframe
               ref={videoRef}
-              src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?rel=0&modestbranding=1`}
+              src={embedSrc}
               title="Runic Vanguard — Boss encounter loop"
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             />
           ) : (
