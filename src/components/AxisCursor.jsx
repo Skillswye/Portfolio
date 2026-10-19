@@ -17,13 +17,17 @@ export default function AxisCursor() {
   // OS cursor site-wide, so the moment someone tabs we stand down and hand the
   // native cursor + focus ring back. Any mouse movement resumes the crosshair.
   const [keyboardNav, setKeyboardNav] = useState(false)
+  // The crosshair moves 1:1 with the user's own hand, so it stays on under
+  // reduced motion — only its fade in/out (actual animation) is switched off.
+  const [reducedMotion, setReducedMotion] = useState(false)
 
   useEffect(() => {
     const mq = window.matchMedia('(pointer: fine)')
     const motionMq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    // A crosshair that tracks the pointer is continuous motion — skip it
-    // entirely when the OS asks for reduced motion.
-    const update = () => setEnabled(mq.matches && !motionMq.matches)
+    const update = () => {
+      setEnabled(mq.matches)
+      setReducedMotion(motionMq.matches)
+    }
     update()
     mq.addEventListener('change', update)
     motionMq.addEventListener('change', update)
@@ -110,6 +114,7 @@ export default function AxisCursor() {
         labelPaddingX={6}
         labelPaddingY={4}
         labelRadius={2}
+        fadeDuration={reducedMotion ? 0 : 0.2}
       />
     </div>
   )

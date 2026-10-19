@@ -20,6 +20,8 @@ interface CrosshairCursorProps {
   labelPaddingX?: number;
   labelPaddingY?: number;
   labelRadius?: number;
+  /** Fade in/out duration in seconds. Pass 0 to disable the fade. */
+  fadeDuration?: number;
 }
 
 const useMousePosition = (containerRef: RefObject<HTMLDivElement | null>) => {
@@ -97,7 +99,9 @@ export default function CrosshairCursor({
   labelPaddingX = 6,
   labelPaddingY = 4,
   labelRadius = 1,
+  fadeDuration = 0.2,
 }: CrosshairCursorProps) {
+  const fade = { duration: fadeDuration, ease: "easeInOut" } as const;
   const containerRef = useRef<HTMLDivElement>(null);
   const { mousePosition, isInside } = useMousePosition(containerRef);
 
@@ -130,7 +134,7 @@ export default function CrosshairCursor({
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: isVisible ? 1 : 0 }}
-        transition={{ duration: 0.2, ease: "easeInOut" }}
+        transition={fade}
       />
       <motion.div
         style={{
@@ -145,7 +149,7 @@ export default function CrosshairCursor({
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: isVisible ? 1 : 0 }}
-        transition={{ duration: 0.2, ease: "easeInOut" }}
+        transition={fade}
       />
       {dotDisabled ? null : (
         <motion.div
@@ -162,7 +166,7 @@ export default function CrosshairCursor({
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: isVisible ? 1 : 0 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
+          transition={fade}
         />
       )}
       {showPosition && (
@@ -183,7 +187,7 @@ export default function CrosshairCursor({
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: isVisible ? 1 : 0 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
+          transition={fade}
         >
           {labelMode === "custom"
             ? labelText
