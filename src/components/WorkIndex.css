@@ -38,20 +38,11 @@
   font-weight: 300;
 }
 
-/* Grid */
+/* Grid — every project gets a full-width, cinematic card */
 .work__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 2.5rem;
-}
-
-/* First card spans full width (featured) */
-.work__card:first-child {
-  grid-column: 1 / -1;
-}
-
-.work__card:first-child .work__card-visual {
-  aspect-ratio: 21 / 9;
 }
 
 .work__card {
@@ -73,7 +64,7 @@
 .work__card-visual {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 21 / 9;
   overflow: hidden;
   background: var(--void);
 }
@@ -208,10 +199,9 @@
 @media (max-width: 900px) {
   .work { padding: 8rem 1.5rem 4rem; }
   .work__grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  .work__card:first-child .work__card-visual {
+  .work__card-visual {
     aspect-ratio: 16 / 10;
   }
 }

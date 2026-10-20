@@ -53,7 +53,7 @@ export default function WorkIndex() {
                   fallbackSrc={project.poster}
                   width={project.posterWidth}
                   height={project.posterHeight}
-                  sizes="(max-width: 768px) 100vw, 420px"
+                  sizes="(max-width: 1400px) 100vw, 1270px"
                   alt={`${project.title} poster`}
                 />
               ) : (
@@ -80,7 +80,9 @@ export default function WorkIndex() {
                 <span className="mono work__card-year">{project.year}</span>
               </div>
               <h2 className="work__card-title display">{project.title}</h2>
-              <span className="mono work__card-subtitle">{project.subtitle}</span>
+              {project.subtitle && (
+                <span className="mono work__card-subtitle">{project.subtitle}</span>
+              )}
               <p className="work__card-tagline">"{project.tagline}"</p>
               <span className="work__card-enter mono">
                 View project
