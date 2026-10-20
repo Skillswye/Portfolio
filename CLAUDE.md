@@ -68,6 +68,13 @@ npm run preview  # 本地预览生产构建
 - 首屏之外一律 `loading="lazy"`（组件默认行为，above-the-fold 才传 `eager`）。
 - **单张 WebP 不超过 500KB。** UE5 截图从 PNG 转 WebP 通常能压到 1/40，不要直接扔原始 PNG 进 `public/`。
 
+## 视频
+
+- 自托管在 `public/videos/`，用 `src/components/VideoPlayer.jsx`（原生 `<video>`，`preload="metadata"`），不再用 YouTube / Vimeo 嵌入 —— Vimeo 在 localhost 下报过 Player error，且第三方 iframe 没法精确跳转。
+- 编码：H.264 MP4 + AAC，`-movflags +faststart`（否则要下完才能播 / 跳转），需要点击跳转的视频加 `-g 60`（2 秒一个关键帧）。
+- **单个视频不超过 50MB**（GitHub 超 50MB 警告、超 100MB 拒收）。1080p 用 `-crf 23~24 -preset slow` 通常够。
+- 每个视频配一张 `-poster.webp` 封面（从视频里截帧），路径和尺寸写在 `projects.js`。
+
 ## 无障碍
 
 - 焦点样式在 global.css 的 `:focus-visible`，用琥珀色描边。不要 `outline: none`。

@@ -4,6 +4,8 @@ import SpellAnatomy from './SpellAnatomy.jsx'
 import BossLoop from './BossLoop.jsx'
 import PatrolAI from './PatrolAI.jsx'
 import WaveSpawner from './WaveSpawner.jsx'
+import PetalStateMachine from './PetalStateMachine.jsx'
+import VideoPlayer from './VideoPlayer.jsx'
 import './ProjectFeature.css'
 
 export default function ProjectFeature({ project, index }) {
@@ -19,13 +21,21 @@ export default function ProjectFeature({ project, index }) {
       </div>
 
       {project.poster && (
-        <div className="project__poster reveal">
+        <div
+          className={`project__poster reveal ${
+            project.posterWidth > project.posterHeight ? 'project__poster--wide' : ''
+          }`}
+        >
           <ResponsiveImage
             webpSrcSet={project.posterWebp}
             fallbackSrc={project.poster}
             width={project.posterWidth}
             height={project.posterHeight}
-            sizes="(max-width: 900px) 100vw, 800px"
+            sizes={
+              project.posterWidth > project.posterHeight
+                ? '(max-width: 1200px) 100vw, 1100px'
+                : '(max-width: 900px) 100vw, 800px'
+            }
             eager
             alt={`${project.title} poster`}
           />
@@ -36,7 +46,7 @@ export default function ProjectFeature({ project, index }) {
       {/* Header — large project number + title */}
       <header className="project__header reveal">
         <div className="project__title-wrap">
-          <span className="eyebrow">{project.subtitle}</span>
+          {project.subtitle && <span className="eyebrow">{project.subtitle}</span>}
           <h2 className="project__title display">{project.title}</h2>
           <p className="project__tagline">"{project.tagline}"</p>
         </div>
@@ -63,26 +73,18 @@ export default function ProjectFeature({ project, index }) {
         <p className="project__logline">{project.logline}</p>
       </div>
 
-      {project.trailerVimeoId && (
+      {project.trailer && (
         <div className="project__trailer reveal">
-          <div className="project__trailer-frame">
-            <iframe
-              src={`https://player.vimeo.com/video/${project.trailerVimeoId}?title=0&byline=0&portrait=0&dnt=1`}
-              title={`${project.title} trailer`}
-              frameBorder="0"
-              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            />
-          </div>
+          <VideoPlayer video={project.trailer} title={`${project.title} trailer`} />
           <p className="project__trailer-caption mono">
             ▸ Trailer · {project.title}
           </p>
         </div>
       )}
 
+      {project.petalStateMachine && <PetalStateMachine figure={project.petalStateMachine} />}
       {project.showSpellAnatomy && <SpellAnatomy />}
-      {project.showBossLoop && <BossLoop vimeoId={project.bossLoopVimeoId} />}
+      {project.showBossLoop && <BossLoop video={project.bossLoopVideo} />}
       {project.showPatrolAI && <PatrolAI />}
       {project.showWaveSpawner && <WaveSpawner />}
 
@@ -180,6 +182,19 @@ export default function ProjectFeature({ project, index }) {
         </ul>
       </div>
 
+      {project.credits && (
+        <div className="project__credits reveal">
+          <span className="eyebrow">Credits</span>
+          <dl className="project__credits-list">
+            {project.credits.map((c) => (
+              <div key={c.label} className="project__credit">
+                <dt className="mono project__credit-label">{c.label}</dt>
+                <dd className="project__credit-value">{c.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
     </section>
   )
 }

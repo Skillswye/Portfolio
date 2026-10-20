@@ -59,7 +59,7 @@ export default function About() {
               <li>Unreal Engine 5 (Blueprint)</li>
               <li>Maya</li>
               <li>Twine · Harlowe</li>
-              <li>Niagara <span className="about__tool-status">(coming)</span></li>
+              <li>Niagara · HLSL</li>
               <li>C++</li>
               <li>Java</li>
             </ul>

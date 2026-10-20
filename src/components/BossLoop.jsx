@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
+import VideoPlayer from './VideoPlayer.jsx'
 import './BossLoop.css'
 
 const phases = [
@@ -48,75 +49,21 @@ const phases = [
   },
 ]
 
-const VIMEO_ORIGIN = 'https://player.vimeo.com'
-
-export default function BossLoop({ vimeoId }) {
+export default function BossLoop({ video }) {
   const [activePhase, setActivePhase] = useState(null)
-  const [videoLoaded, setVideoLoaded] = useState(false)
   const videoRef = useRef(null)
-  const sectionRef = useRef(null)
-  // Set once the Vimeo player posts its "ready" event — before that it ignores
-  // postMessage commands, so a click falls back to reloading at the timestamp.
-  const playerReadyRef = useRef(false)
-
-  const embedSrc = `${VIMEO_ORIGIN}/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1`
-
-  useEffect(() => {
-    const onMessage = (e) => {
-      if (e.origin !== VIMEO_ORIGIN) return
-      if (!videoRef.current || e.source !== videoRef.current.contentWindow) return
-      let data = e.data
-      if (typeof data === 'string') {
-        try {
-          data = JSON.parse(data)
-        } catch {
-          return
-        }
-      }
-      if (data && data.event === 'ready') playerReadyRef.current = true
-    }
-    window.addEventListener('message', onMessage)
-    return () => window.removeEventListener('message', onMessage)
-  }, [])
-
-  const sendToPlayer = (method, value) => {
-    videoRef.current.contentWindow.postMessage(
-      JSON.stringify(value === undefined ? { method } : { method, value }),
-      VIMEO_ORIGIN
-    )
-  }
-
-  // Lazy-load the iframe only when the section enters view
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVideoLoaded(true)
-            observer.disconnect()
-          }
-        })
-      },
-      { rootMargin: '200px' }
-    )
-    if (sectionRef.current) observer.observe(sectionRef.current)
-    return () => observer.disconnect()
-  }, [])
 
   const handlePhaseClick = (phase) => {
     setActivePhase(phase.id)
-    if (!videoRef.current) return
-    if (playerReadyRef.current) {
-      // Seek the live player in place — no reload, no black flash.
-      sendToPlayer('setCurrentTime', phase.startSec)
-      sendToPlayer('play')
-    } else {
-      videoRef.current.src = `${embedSrc}&autoplay=1#t=${phase.startSec}s`
-    }
+    const v = videoRef.current
+    if (!v) return
+    v.currentTime = phase.startSec
+    // The browser may refuse to start playback; the seek still lands either way.
+    v.play().catch(() => {})
   }
 
   return (
-    <section ref={sectionRef} className="boss reveal">
+    <section className="boss reveal">
       <header className="boss__header">
         <span className="eyebrow">Fig. 02 / Boss Encounter Loop</span>
         <h3 className="boss__title display">
@@ -126,23 +73,11 @@ export default function BossLoop({ vimeoId }) {
 
       {/* Video frame */}
       <div className="boss__video-wrap">
-        <div className="boss__video-frame">
-          {videoLoaded ? (
-            <iframe
-              ref={videoRef}
-              src={embedSrc}
-              title="Runic Vanguard — Boss encounter loop"
-              frameBorder="0"
-              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            />
-          ) : (
-            <div className="boss__video-placeholder">
-              <span className="mono">▸ Loading boss encounter</span>
-            </div>
-          )}
-        </div>
+        <VideoPlayer
+          ref={videoRef}
+          video={video}
+          title="Runic Vanguard — Boss encounter loop"
+        />
         <p className="boss__video-caption mono">
           Fig. 02a · 4-phase encounter loop · Click a phase below to jump
         </p>
