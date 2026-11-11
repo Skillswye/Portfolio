@@ -99,6 +99,10 @@
   margin-bottom: 4rem;
 }
 
+.project__meta--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .project__meta-item {
   display: flex;
   flex-direction: column;

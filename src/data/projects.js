@@ -48,6 +48,7 @@ export const featuredProjects = [
     id: 'sakura',
     number: '02',
     title: 'Sakura',
+    subtitle: 'Niagara project',
     year: '2026',
     engine: 'Unreal Engine 5 · Niagara',
     role: 'VFX & Technical Designer',
@@ -165,27 +166,44 @@ export const featuredProjects = [
     media: [],
   },
   {
-    id: 'systems-design',
+    id: 'planet-generator',
     number: '03',
-    title: 'Systems Design Project',
-    subtitle: 'Coursework · In Development',
-    year: 'Spring 2027',
-    engine: 'TBD',
+    title: 'Planet Generator',
+    subtitle: 'Procedural Worlds / Percentage-Driven Terrain',
+    year: '2026',
     role: 'Designer & Developer',
-    tagline: '[Tagline coming soon]',
-    inDevelopment: true,
+    tagline: 'Every slider is a share of the world, not a magic number.',
+    // Rendered from the web build itself (seed 1337, default sliders).
+    poster: '/planet-generator-poster-fallback.jpg',
+    posterWebp:
+      '/planet-generator-poster-1200.webp 1200w, /planet-generator-poster-2000.webp 2000w',
+    posterWidth: 2000,
+    posterHeight: 894,
+    showPlanetGenerator: true,
     logline:
-      '[Reserved for an upcoming systems design project. This space will document the mechanics, economies, and feedback loops authored during the Spring 2027 systems design coursework.]',
+      'A procedural planet built from layered gradient noise — continents, ridged mountain ranges, rolling hills, inland lakes and a dozen biomes sorted by temperature and moisture. It runs live in the browser below: drag any slider and the world is rebuilt from the same seed, then export the result as a mesh.',
     systems: [
-      { label: 'Core Mechanic', detail: '[To be documented]' },
-      { label: 'Economy / Resource Loop', detail: '[To be documented]' },
-      { label: 'Feedback Systems', detail: '[To be documented]' },
-      { label: 'Design Rationale', detail: '[To be documented]' },
+      {
+        label: 'Percentage-Driven Thresholds',
+        detail:
+          'Each noise layer is divided by its own standard deviation, then a probit curve turns a slider percentage into a threshold · "Ocean 60%" covers ~60% of the sphere, and mountains, hills, lakes, forest and desert are shares of the land that remains',
+      },
+      {
+        label: 'Layered Height Function',
+        detail:
+          '5-octave fbm continents · ridged multifractal mountains behind their own mask · hills kept off the ranges · lakes carved into high interior land · sea held flat at radius 1',
+      },
+      {
+        label: 'Biome Classification',
+        detail:
+          'Temperature from latitude, altitude and noise · moisture from its own fbm · ten ordered rules, from savanna and grassland through forest, taiga, desert and beach to rock, peaks and polar snow',
+      },
+      {
+        label: 'Real-Time Build',
+        detail:
+          'React Three Fiber · relief computed in a Web Worker on a cube-sphere welded before displacement, so seams never crack · biome colour evaluated per pixel by a GLSL twin of the same formula, sharp at any zoom · OBJ export with vertex colours',
+      },
     ],
-    media: [
-      { type: 'placeholder', caption: 'Coming Spring 2027' },
-      { type: 'placeholder', caption: 'Coming Spring 2027' },
-      { type: 'placeholder', caption: 'Coming Spring 2027' },
-    ],
+    media: [],
   },
 ]

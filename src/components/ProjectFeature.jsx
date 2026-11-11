@@ -6,6 +6,7 @@ import PatrolAI from './PatrolAI.jsx'
 import WaveSpawner from './WaveSpawner.jsx'
 import PetalStateMachine from './PetalStateMachine.jsx'
 import VideoPlayer from './VideoPlayer.jsx'
+import PlanetGeneratorSection from './planet/PlanetGeneratorSection.jsx'
 import './ProjectFeature.css'
 
 export default function ProjectFeature({ project, index }) {
@@ -53,20 +54,24 @@ export default function ProjectFeature({ project, index }) {
       </header>
 
       {/* Meta strip */}
-      <div className="project__meta reveal">
-        <div className="project__meta-item">
-          <span className="mono project__meta-label">Year</span>
-          <span className="project__meta-value">{project.year}</span>
-        </div>
-        <div className="project__meta-item">
-          <span className="mono project__meta-label">Engine</span>
-          <span className="project__meta-value">{project.engine}</span>
-        </div>
-        <div className="project__meta-item">
-          <span className="mono project__meta-label">Role</span>
-          <span className="project__meta-value">{project.role}</span>
-        </div>
-      </div>
+      {(() => {
+        // Any field can be left out of projects.js; the strip re-flows to fit.
+        const meta = [
+          ['Year', project.year],
+          ['Engine', project.engine],
+          ['Role', project.role],
+        ].filter(([, v]) => v)
+        return (
+          <div className={`project__meta project__meta--${meta.length} reveal`}>
+            {meta.map(([label, value]) => (
+              <div className="project__meta-item" key={label}>
+                <span className="mono project__meta-label">{label}</span>
+                <span className="project__meta-value">{value}</span>
+              </div>
+            ))}
+          </div>
+        )
+      })()}
 
       {/* Logline */}
       <div className="project__logline-wrap reveal">
@@ -87,6 +92,7 @@ export default function ProjectFeature({ project, index }) {
       {project.showBossLoop && <BossLoop video={project.bossLoopVideo} />}
       {project.showPatrolAI && <PatrolAI />}
       {project.showWaveSpawner && <WaveSpawner />}
+      {project.showPlanetGenerator && <PlanetGeneratorSection />}
 
       {project.media && project.media.length > 0 && (
       <div className="project__gallery reveal">

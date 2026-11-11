@@ -75,6 +75,26 @@ npm run preview  # 本地预览生产构建
 - **单个视频不超过 50MB**（GitHub 超 50MB 警告、超 100MB 拒收）。1080p 用 `-crf 23~24 -preset slow` 通常够。
 - 每个视频配一张 `-poster.webp` 封面（从视频里截帧），路径和尺寸写在 `projects.js`。
 
+## 3D 星球生成器（`src/components/planet/`）
+
+UE5 星球生成器的网页复刻，是第三个项目 `/work/planet-generator`（`projects.js` 里 `showPlanetGenerator: true`）。海报 `public/planet-generator-poster-*` 是用这个网页版本身渲染的（seed 1337）。
+
+- **没有昼夜面**：强环境光 + 跟随相机、往左上偏约 30° 的头灯（`scene/Sky.jsx`），Canvas 用 `flat`（不做 tone mapping），这样 UE 的 hex 颜色能原样显示。不要再加太阳光。
+- **地貌颜色在所有设备上都是逐像素算的**（`lib/terrain.glsl.js`，注入 MeshStandardMaterial 的 `color_fragment`），所以放多大都不糊。顶点色插值无论网格多密，放大后都会糊，不要退回顶点色。这个 shader 很吃片元算力，所以手机（coarse pointer）的 DPR 封顶 1.5。
+- 网格只负责起伏和轮廓：桌面端先算 64 段预览再细化到 256 段，手机端 128 段，见 `params.js` 的 `PASSES_*`。256 段在 Worker 里分块计算，滑条有新改动时旧任务会被中止。shader 的参数取自 `geometry.userData.params`（生成当前网格的那组参数），这样颜色不会跑在起伏前面。
+- OBJ 导出单独构建 128 段（`EXPORT_SEGMENTS`，约 14MB）；导出 256 段的显示网格会有约 60MB。
+- `projects.js` 里 `year` / `engine` / `role` 都可以省略，信息条会自动按项数排列（Planet Generator 没有 engine）。
+
+- **`@react-three/fiber` 必须停在 v8、`drei` 停在 v9** —— fiber v9 要求 React 19。three 锁在 0.172（drei 9 发布时对应的版本）。
+- three 只在懒加载 chunk 里：`ProjectFeature` 只能静态引入 `PlanetGeneratorSection.jsx`（不含 three），不要直接 import `PlanetGenerator.jsx`。
+- `.reveal` 必须放在 Section 里（同步渲染部分），放进懒加载组件里 ProjectDetail 的 IntersectionObserver 看不到，会一直透明。
+- **地形/配色公式有两份，改一处必须同步改另一处**：`lib/terrain.js`（Worker：起伏；配色部分只有 OBJ 导出用，显示用的构建传 `{ colors: false }` 跳过）和 `lib/terrain.glsl.js`（屏幕上的逐像素配色）。规则顺序也要一致。
+- `lib/noise.glsl.js`（地表配色 + 云层）是 `lib/noise.js` 的逐位移植：改哈希常数或梯度表必须两边同步。
+- gn 梯度是 12 条棱方向 × 1/√2（单位长度），σ≈0.19 —— UE 版的标准化常数（0.235 等）依赖这个，换梯度会让「海洋 60%」不再约等于 60% 面积。
+- 3D 场景里的 hex 颜色集中在 `palette.js`（场景数据，不是 UI 色）；面板 UI 仍然只用 CSS 变量。
+- 所有运动乘 `useFrame` 的 `dt`；`Motion` 开关在 `prefers-reduced-motion` 下默认关闭。
+- three 自带的 OBJExporter 不给 Mesh 写顶点色，所以 `lib/exportPlanet.js` 是手写的 OBJ writer。
+
 ## 无障碍
 
 - 焦点样式在 global.css 的 `:focus-visible`，用琥珀色描边。不要 `outline: none`。
