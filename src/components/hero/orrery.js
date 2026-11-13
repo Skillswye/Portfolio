@@ -30,27 +30,36 @@ const FRAME_MS = 1000 / 60
 
 // The orbital plane, seen from above-and-to-the-side.
 const SQUASH = 0.46 // minor / major axis
+const REF_SCALE = 1098 // layout scale at which the planet sizes are 1:1
 const TILT = -0.2 // radians; the whole plane leans up to the right
 
 const FONT = '"JetBrains Mono", "Courier New", monospace'
 const BEACON = [255, 80, 80] // ship easter egg — the one colour off-palette
 
-// orbit: radius in layout units · size: px · period: relative year
+// orbit: radius in layout units · size: px at REF_SCALE · period: relative year
+//
+// Spacing rule: where the squashed orbits run closest (straight above and
+// below the sun) neighbours are only SQUASH × their orbit gap apart, so the
+// gaps are sized to the bodies — no two planets, Saturn's rings and the Moon's
+// orbit included, may overlap when they line up. Saturn needs the most room:
+// its rings are an ellipse 2.2 radii wide, and Jupiter's axis pin must clear
+// them too. If you change a size or an orbit, re-check that; body sizes scale
+// with the layout (see `unit`) so the guarantee holds at every window size.
 // spin: self-rotation, radians per 60fps frame (Venus turns backwards)
 // obliquity: axial tilt in radians, leaning the axis off the orbit normal
 const PLANETS = [
-  { name: 'Mercury', data: '0.39 AU · 0.24 y', orbit: 0.075, size: 5, tone: 'mercury', period: 0.24, angle: 0.9, spin: 0.0025, obliquity: 0 },
-  { name: 'Venus', data: '0.72 AU · 0.62 y', orbit: 0.115, size: 9, tone: 'venus', period: 0.62, angle: 2.7, spin: -0.0018, obliquity: 0.05 },
+  { name: 'Mercury', data: '0.39 AU · 0.24 y', orbit: 0.071, size: 4.4, tone: 'mercury', period: 0.24, angle: 0.9, spin: 0.0025, obliquity: 0 },
+  { name: 'Venus', data: '0.72 AU · 0.62 y', orbit: 0.113, size: 7.9, tone: 'venus', period: 0.62, angle: 2.7, spin: -0.0018, obliquity: 0.05 },
   {
-    name: 'Earth', data: '1.00 AU · 1.00 y', orbit: 0.16, size: 10, tone: 'earth', period: 1, angle: 5.5, spin: 0.007, obliquity: 0.41,
-    moon: { orbit: 0.03, size: 1.6, period: 0.5, angle: 1 },
+    name: 'Earth', data: '1.00 AU · 1.00 y', orbit: 0.175, size: 8.8, tone: 'earth', period: 1, angle: 5.5, spin: 0.007, obliquity: 0.41,
+    moon: { orbit: 0.026, size: 1.5, period: 0.5, angle: 1 },
   },
-  { name: 'Mars', data: '1.52 AU · 1.88 y', orbit: 0.21, size: 7.5, tone: 'mars', period: 1.88, angle: 0.35, spin: 0.0068, obliquity: 0.44 },
+  { name: 'Mars', data: '1.52 AU · 1.88 y', orbit: 0.233, size: 6.6, tone: 'mars', period: 1.88, angle: 0.35, spin: 0.0068, obliquity: 0.44 },
   // Outer periods are visually compressed so they still read as moving.
-  { name: 'Jupiter', data: '5.20 AU · 11.86 y', orbit: 0.31, size: 24, tone: 'jupiter', period: 5.5, angle: 2.25, spin: 0.013, obliquity: 0.055 },
-  { name: 'Saturn', data: '9.58 AU · 29.5 y', orbit: 0.4, size: 19, tone: 'saturn', period: 9, angle: 4.2, spin: 0.012, obliquity: 0.47, rings: true },
+  { name: 'Jupiter', data: '5.20 AU · 11.86 y', orbit: 0.325, size: 21, tone: 'jupiter', period: 5.5, angle: 2.25, spin: 0.013, obliquity: 0.055 },
+  { name: 'Saturn', data: '9.58 AU · 29.5 y', orbit: 0.48, size: 16.7, tone: 'saturn', period: 9, angle: 4.2, spin: 0.012, obliquity: 0.47, rings: true },
 ]
-const BELT = [0.243, 0.278] // asteroid belt, between Mars and Jupiter
+const BELT = [0.26, 0.288] // asteroid belt, between Mars and Jupiter
 
 // Every globe is seen from the same elevation as the orbital plane:
 // north poles tip toward the viewer by this much.
@@ -223,7 +232,7 @@ export function createOrrery(canvas) {
   let cy0 = 0
   let scale = 1
   let compact = false
-  let unit = 1 // body-size multiplier: planets and sun shrink on small screens
+  let unit = 1 // body-size multiplier, tied to the layout scale
   let cx = 0
   let cy = 0
   const cosT = Math.cos(TILT)
@@ -238,18 +247,19 @@ export function createOrrery(canvas) {
     canvas.height = Math.round(H * dpr)
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     compact = W < 720
-    unit = compact ? 0.62 : 1
     if (W / H < 0.8) {
       // Portrait: tuck the chart into the empty corner above the name.
       cx0 = W * 0.78
-      cy0 = Math.min(H * 0.16, 150)
-      scale = W * 1.05
+      cy0 = Math.min(H * 0.156, 132)
+      scale = W * 0.92
     } else {
       // Landscape: right of the name, outer ring bleeding off the edge.
       cx0 = W * 0.7
       cy0 = H * 0.52
-      scale = Math.min(W, H) * 1.22
+      scale = Math.min(W, H) * 1.14
     }
+    // Bodies grow and shrink with the orbits, so spacing never collapses.
+    unit = Math.min(1.2, Math.max(0.4, scale / REF_SCALE))
   }
   layout()
   const resizeObserver = new ResizeObserver(layout)
@@ -434,7 +444,7 @@ export function createOrrery(canvas) {
 
   /** Two faint axes through the sun, reaching just past Saturn's orbit. */
   const drawFrame = (k) => {
-    const R = scale * 0.4 * 1.12
+    const R = scale * 0.48 * 1.08
     ctx.lineWidth = 0.6
     ctx.beginPath()
     ctx.moveTo(...project(Math.PI, R * k))
@@ -929,7 +939,7 @@ export function createOrrery(canvas) {
       if (p.moon) p.moon.angle += (0.01 / p.moon.period) * speed * dt
       p.depth = Math.sin(p.angle) // +1 nearest the viewer, -1 behind the sun
       ;[p.x, p.y] = project(p.angle, p.orbit * scale)
-      p.s = p.size * unit * (1 + 0.14 * p.depth)
+      p.s = p.size * unit * (1 + 0.1 * p.depth)
       p.k = easeOut(intro * 1.7 - i * 0.11)
     })
     hovered = mouse.active ? hitTest(mouse.x, mouse.y, 5) : null
