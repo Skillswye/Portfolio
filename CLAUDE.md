@@ -59,7 +59,14 @@ npm run preview  # 本地预览生产构建
 - **所有动效必须能被 `prefers-reduced-motion: reduce` 关掉**，global.css 底部已有全局兜底 block，新增动画时确认它能覆盖到。
 - 自定义十字光标 `AxisCursor.jsx` 有三重降级：非精确指针、iframe 悬停、键盘导航时自动让位。改它的时候别破坏这三条。
   `prefers-reduced-motion` **不**关闭准星（它跟随用户的手 1:1 移动，不算动画），只把淡入淡出设为 0。
-- 首页 `Hero.jsx` 的 canvas 动画以「60fps 帧」为单位、按 `dt` 推进 —— 新增任何运动量都要乘 `dt`，否则在高刷屏（Jason 的显示器是 319Hz）上会快好几倍。
+- 首页太阳系是 `src/components/hero/orrery.js`（纯 canvas 2D，`Hero.jsx` 只负责挂载）。动画以「60fps 帧」为单位、按 `dt` 推进 —— 新增任何运动量都要乘 `dt`，否则在高刷屏（Jason 的显示器是 319Hz）上会快好几倍。
+  - 风格是**古典天文版画**：细线轨道、点刻（stipple）行星、规则放射线的太阳、弧线小行星带、等宽小标注。参考：Trouvelot 1881 天文版画、Eleanor Lutz《Atlas of Space》。
+  - Jason 否掉过两样，不要加回来：**形状会变化的日冕**（看起来像一块被拉伸的不规则平面；太阳的光芒要保持规则的圆形）和**最外圈的罗马数字历法环**。不要改回发光渐变的写实行星。
+  - **行星必须看得出自转**：每颗是固定在球面上的一组点，绕倾斜的自转轴转动（金星逆向），并画出穿过两极的轴线。表面纹理在 `SURFACE` 里按行星定义（木星条带 + 大红斑、地球陆地、火星极冠…），噪声复用 `planet/lib/noise.js`。
+  - 颜色全部从 CSS 变量读取（琥珀 + 骨白双色，冷色只给地球），不要在里面写 hex。
+  - `prefers-reduced-motion` **不**让太阳系静止：公转、尘埃、流星照常播放（Jason 自己的 Windows 关了动画效果，静止版被他当成了 bug）。只有入场「画出来」的动画和鼠标视差遵守这个设置。
+  - Hero 滚出屏幕后停止渲染；canvas 按 DPR（上限 2）绘制，细线才清晰。
+  - 彩蛋要保留：双击太阳（耀斑 + 加速 + 几秒后飞过一艘船）、双击行星（涟漪 + 推开尘埃）、流星。
 
 ## 图片
 
@@ -117,7 +124,6 @@ UE5 星球生成器的网页复刻，是第三个项目 `/work/planet-generator`
   注意：在近黑背景上 overlay 几乎把颗粒抵消了，视觉收益极低。
   改这里之前先和 Jason 确认，这是他的视觉签名。
 
-- `src/components/Hero.jsx` 有 23KB，过大，应该拆分。
 - `body { overflow-x: hidden }` 是在盖住某处横向溢出，根因还没定位。
 - **SPA 没有预渲染** —— 抓取器只能拿到 `index.html` 的 meta 标签，正文抓不到。Google 索引和社交平台分享卡片都受影响。待办：给 Vite 加预渲染插件，注意 `AxisCursor` 等依赖 `window` 的组件需要保护判断。
 - `public/` 里的原始 PNG（`patrol-ai-debug.png`、`wave-spawner-runtime.png`）已被 WebP 取代，不再被代码引用，可以删除以缩小仓库体积。
