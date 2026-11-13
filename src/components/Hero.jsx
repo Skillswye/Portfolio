@@ -17,12 +17,6 @@ export default function Hero() {
       <div className="hero__gradient" />
 
       <div className="hero__content">
-        <div className="hero__meta">
-          <span className="mono">Portfolio · 2026</span>
-          <span className="hero__divider">/</span>
-          <span className="mono">Savannah, GA</span>
-        </div>
-
         <h1 className="hero__name display">
           <span className="hero__name-line">Ziye</span>
           <span className="hero__name-line hero__name-line--alt">Zhao</span>

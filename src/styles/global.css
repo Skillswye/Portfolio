@@ -29,6 +29,8 @@
   --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
   --font-body: 'Inter Tight', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  /* Hero name only — subset to the letters of "Ziye Zhao" (see index.html) */
+  --font-name: 'Instrument Serif', 'Cormorant Garamond', 'Times New Roman', serif;
 
   /* Spacing rhythm */
   --space-xs: 0.5rem;

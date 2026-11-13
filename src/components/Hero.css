@@ -53,26 +53,13 @@
   max-width: 900px;
 }
 
-.hero__meta {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: var(--bone);
+.hero__name.display {
+  font-family: var(--font-name);
+  font-weight: 400; /* Instrument Serif has a single weight */
+  font-size: clamp(3.75rem, 9.5vw, 7.75rem);
+  line-height: 1.04;
   margin-bottom: 3rem;
-  opacity: 0;
-  animation: hero-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-}
-
-.hero__divider {
-  color: var(--ember);
-  opacity: 0.6;
-}
-
-.hero__name {
-  font-size: clamp(5rem, 14vw, 11rem);
-  line-height: 0.92;
-  margin-bottom: 3rem;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.012em;
 }
 
 .hero__name-line {

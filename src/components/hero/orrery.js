@@ -216,7 +216,7 @@ export function createOrrery(canvas) {
       roll,
       // Rz(roll) · Rx(pole tip): sphere space (y-up) → screen space (y-up)
       m: [cr, -sr * COS_TIP, sr * SIN_TIP, sr, cr * COS_TIP, -cr * SIN_TIP, 0, SIN_TIP, COS_TIP],
-      x: 0, y: 0, s: p.size, depth: 0,
+      x: 0, y: 0, s: p.size, depth: 0, labelK: 0,
     }
   })
 
@@ -231,7 +231,6 @@ export function createOrrery(canvas) {
   let cx0 = 0
   let cy0 = 0
   let scale = 1
-  let compact = false
   let unit = 1 // body-size multiplier, tied to the layout scale
   let cx = 0
   let cy = 0
@@ -246,7 +245,6 @@ export function createOrrery(canvas) {
     canvas.width = Math.round(W * dpr)
     canvas.height = Math.round(H * dpr)
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-    compact = W < 720
     if (W / H < 0.8) {
       // Portrait: tuck the chart into the empty corner above the name.
       cx0 = W * 0.78
@@ -319,6 +317,7 @@ export function createOrrery(canvas) {
   const mouse = { x: -1000, y: -1000, active: false }
   const parallax = { x: 0, y: 0 }
   let hovered = null // planet object, 'sun' or null
+  let sunLabelK = 0 // sun label fade, like each planet's labelK
   let bursts = []
   let solarBoost = 0 // sun double-click: everything speeds up, then settles
   let meteors = []
@@ -713,7 +712,7 @@ export function createOrrery(canvas) {
     })
   }
 
-  /** `01 EARTH` on a short leader line; data line appears on hover. */
+  /** `01 EARTH` + data line on a short leader; only drawn while hovered. */
   const drawLabel = (x, y, s, index, name, data, hot, alpha) => {
     const x1 = x + s * 0.72 + 2
     const y1 = y - s * 0.72 - 2
@@ -942,7 +941,7 @@ export function createOrrery(canvas) {
       p.s = p.size * unit * (1 + 0.1 * p.depth)
       p.k = easeOut(intro * 1.7 - i * 0.11)
     })
-    hovered = mouse.active ? hitTest(mouse.x, mouse.y, 5) : null
+    hovered = mouse.active ? hitTest(mouse.x, mouse.y, 8) : null
 
     planets.forEach((p) => drawOrbit(p, p.k))
     drawBelt(easeOut(intro * 1.5 - 0.3))
@@ -958,12 +957,17 @@ export function createOrrery(canvas) {
     byDepth.filter((p) => p.depth >= 0).forEach(paint)
 
     if (hovered && hovered !== 'sun') drawReticle(hovered)
-    if (!compact) {
-      planets.forEach((p) => {
-        drawLabel(p.x, p.y, p.rings ? p.s * 1.75 : p.s, p.index, p.name, p.data, hovered === p, p.k)
-      })
-    }
-    if (hovered === 'sun') drawLabel(cx, cy, 24 * unit, '', 'Sol', 'Center of system', true, 1)
+    // Labels stay out of the picture until a body is pointed at, then fade in
+    // (and back out) over a few frames.
+    const labelEase = 1 - Math.pow(0.8, raw)
+    planets.forEach((p) => {
+      p.labelK += ((hovered === p ? 1 : 0) - p.labelK) * labelEase
+      if (p.labelK > 0.02) {
+        drawLabel(p.x, p.y, p.rings ? p.s * 1.75 : p.s, p.index, p.name, p.data, true, p.labelK)
+      }
+    })
+    sunLabelK += ((hovered === 'sun' ? 1 : 0) - sunLabelK) * labelEase
+    if (sunLabelK > 0.02) drawLabel(cx, cy, 24 * unit, '', 'Sol', 'Center of system', true, sunLabelK)
 
     drawMeteors()
     drawShips()
